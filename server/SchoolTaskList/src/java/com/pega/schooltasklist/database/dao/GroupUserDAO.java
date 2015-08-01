@@ -1,9 +1,11 @@
 package com.pega.schooltasklist.database.dao;
 
 import com.pega.schooltasklist.database.object.Groupuser;
+import com.pega.schooltasklist.database.object.Taskuser;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -52,6 +54,39 @@ public class GroupUserDAO {
             List<Groupuser> groupusers = criteria.list();
             transaction.commit();
             if (groupusers.size() > 0) {
+                for (Groupuser g : groupusers) {
+                    Hibernate.initialize(g.getUser());
+                }
+                return groupusers;
+            }
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOGGER.error("", e);
+        } finally {
+            closeSession(session);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Groupuser> getAllGroup(String ID) {
+
+        Session session = openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Groupuser.class)
+                    .add(Restrictions.eq("user.id", ID))
+                    .add(Restrictions.eq("active", true));
+
+            List<Groupuser> groupusers = criteria.list();
+            transaction.commit();
+            if (groupusers.size() > 0) {
+                for (Groupuser g : groupusers) {
+                    Hibernate.initialize(g.getGroup());
+                }
                 return groupusers;
             }
         } catch (HibernateException e) {

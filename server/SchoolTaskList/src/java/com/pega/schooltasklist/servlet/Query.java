@@ -5,8 +5,11 @@
  */
 package com.pega.schooltasklist.servlet;
 
+import com.pega.schooltasklist.database.dao.GroupDAO;
+import com.pega.schooltasklist.database.dao.GroupUserDAO;
 import com.pega.schooltasklist.database.dao.TaskUserDAO;
 import com.pega.schooltasklist.database.dao.UserDAO;
+import com.pega.schooltasklist.database.object.Groupuser;
 import com.pega.schooltasklist.database.object.Taskuser;
 import com.pega.schooltasklist.database.object.User;
 import java.io.IOException;
@@ -47,6 +50,8 @@ public class Query extends HttpServlet {
     private static final String T_TASK = "Task";
     private static final String T_TASKS = "Tasks";
     private static final String T_USERS = "Users";
+    private static final String T_GROUP_DESCRIPTION = "GroupDescription";
+    private static final String T_GROUPS = "Groups";
 
     private static final int C_SUCCESS = 0;
     private static final String M_SUCCESS = "Success";
@@ -69,7 +74,6 @@ public class Query extends HttpServlet {
     private static final int F_QUERY_USER = 12;
     private static final int F_DELETE_MEMBER = 13;
     private static final int F_CREATE_GROUP = 14;
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -108,6 +112,7 @@ public class Query extends HttpServlet {
                     result = getAllChid(reqJson);
                     break;
                 case F_GET_ALL_GROUP:
+                    result = getAllGroup(reqJson);
                     break;
                 case F_SET_DONE:
                     break;
@@ -258,6 +263,31 @@ public class Query extends HttpServlet {
                 }
             }
             resJson.put(T_USERS, userArray);
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
+    }
+
+    private JSONObject getAllGroup(JSONObject reqJson) {
+        try {
+            String userID = reqJson.getString(T_USER_ID);
+            List<Groupuser> groupusers = GroupUserDAO.getInstance().getAllGroup(userID);
+            JSONObject resJson = new JSONObject();
+            resJson.put(T_CODE, C_SUCCESS);
+            resJson.put(T_MESSAGE, M_SUCCESS);
+            JSONArray groupArray = new JSONArray();
+            if (groupusers != null) {
+                for (Groupuser gu : groupusers) {
+                    JSONObject groupObj = new JSONObject();
+                    groupObj.put(T_GROUP_ID, gu.getGroup().getId());
+                    groupObj.put(T_GROUP_NAME, gu.getGroup().getName());
+                    groupObj.put(T_GROUP_DESCRIPTION, gu.getGroup().getDescription());
+                    groupArray.put(groupObj);
+                }
+            }
+            resJson.put(T_GROUPS, groupArray);
             return resJson;
         } catch (JSONException ex) {
             LOGGER.error("", ex);
