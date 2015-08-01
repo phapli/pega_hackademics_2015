@@ -1,8 +1,8 @@
-#Hackademics 2015
+Hackademics 2015
 
-#Group: Pega
+Group: Pega
 
-#Project: StudyTaskList
+Project: SchoolTaskList
 ======
 
 
