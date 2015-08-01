@@ -37,8 +37,6 @@ public class ConnectServer {
     // by making HTTP POST or GET mehtod
     public JSONObject makeHttpRequest(String url, String method,
                                       List<NameValuePair> params) {
-
-
         // Making HTTP request
         try {
 
@@ -66,8 +64,6 @@ public class ConnectServer {
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
             }
-
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

@@ -1,12 +1,24 @@
 package schooltasklist.pega.com.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import schooltasklist.pega.com.connection.ConnectServer;
+import schooltasklist.pega.com.connection.IOnGetDataFromServerComplete;
+import schooltasklist.pega.com.connection.ManageConnection;
 import schooltasklist.pega.com.schooltasklist.R;
 
 
@@ -19,6 +31,14 @@ public class ActivityLogin extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ManageConnection.getInstance().testConnection(new IOnGetDataFromServerComplete() {
+            @Override
+            public void onGetDataComplete() {
+                Log.d("TEST", "test callback");
+            }
+        });
+
     }
 
 
@@ -43,4 +63,7 @@ public class ActivityLogin extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
