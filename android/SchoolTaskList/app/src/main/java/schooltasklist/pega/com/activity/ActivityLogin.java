@@ -1,4 +1,4 @@
-package schooltasklist.pega.com.schooltasklist;
+package schooltasklist.pega.com.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import schooltasklist.pega.com.schooltasklist.R;
 
 
 public class ActivityLogin extends ActionBarActivity {

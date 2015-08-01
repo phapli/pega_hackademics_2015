@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivityMain"
+            android:label="@string/title_activity_activity_main" >
+        </activity>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivityGroup"
+            android:label="@string/title_activity_activity_group" >
+        </activity>
     </application>
 
 </manifest>
