@@ -32,11 +32,14 @@ public class ActivityMain extends FragmentActivity {
         if(isTask)
         {
 
+            iv_task.setImageResource(R.drawable.leftdeactive);
+            iv_group.setImageResource(R.drawable.rightdeactive);
 
         }
         else
         {
-
+            iv_task.setImageResource(R.drawable.leftactive);
+            iv_group.setImageResource(R.drawable.rightactive);
         }
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -65,6 +68,8 @@ public class ActivityMain extends FragmentActivity {
                 {}
                 else
                 {
+                    iv_task.setImageResource(R.drawable.leftdeactive);
+                    iv_group.setImageResource(R.drawable.rightdeactive);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentTask fragment = new FragmentTask();
                     transaction.replace(R.id.fragment_main_content, fragment);
@@ -81,6 +86,8 @@ public class ActivityMain extends FragmentActivity {
                 {}
                 else
                 {
+                    iv_task.setImageResource(R.drawable.leftactive);
+                    iv_group.setImageResource(R.drawable.rightactive);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentGroup fragment = new FragmentGroup();
                     transaction.replace(R.id.fragment_main_content, fragment);
