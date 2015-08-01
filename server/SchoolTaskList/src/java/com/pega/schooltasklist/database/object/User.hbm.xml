@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 1, 2015 11:17:17 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pega.schooltasklist.database.object.User" table="user" catalog="schooltasklist" optimistic-lock="version">
+        <id name="id" type="string">
+            <column name="ID" length="10" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="role" class="com.pega.schooltasklist.database.object.Role" fetch="select">
+            <column name="RoleID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.pega.schooltasklist.database.object.User" fetch="select">
+            <column name="ChildOf" length="10" />
+        </many-to-one>
+        <property name="lastName" type="string">
+            <column name="LastName" length="100" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="FirstName" length="100" />
+        </property>
+        <property name="grade" type="string">
+            <column name="Grade" length="10" />
+        </property>
+        <property name="active" type="java.lang.Boolean">
+            <column name="Active" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="CreateDate" length="19" />
+        </property>
+        <property name="password" type="string">
+            <column name="Password" length="300" />
+        </property>
+        <set name="taskusers" table="taskuser" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.pega.schooltasklist.database.object.Taskuser" />
+        </set>
+        <set name="groupusers" table="groupuser" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="User" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.pega.schooltasklist.database.object.Groupuser" />
+        </set>
+        <set name="users" table="user" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ChildOf" length="10" />
+            </key>
+            <one-to-many class="com.pega.schooltasklist.database.object.User" />
+        </set>
+        <set name="groups" table="group" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Admin" length="10" not-null="true" />
+            </key>
+            <one-to-many class="com.pega.schooltasklist.database.object.Group" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 1, 2015 11:17:17 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pega.schooltasklist.database.object.Task" table="task" catalog="schooltasklist" optimistic-lock="version">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="group" class="com.pega.schooltasklist.database.object.Group" fetch="select">
+            <column name="Group" />
+        </many-to-one>
+        <property name="task" type="string">
+            <column name="Task" length="65535" />
+        </property>
+        <property name="done" type="java.lang.Boolean">
+            <column name="Done" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="CreateDate" length="19" />
+        </property>
+        <property name="deadline" type="timestamp">
+            <column name="Deadline" length="19" />
+        </property>
+        <property name="active" type="java.lang.Boolean">
+            <column name="Active" />
+        </property>
+        <set name="taskusers" table="taskuser" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Task" not-null="true" />
+            </key>
+            <one-to-many class="com.pega.schooltasklist.database.object.Taskuser" />
+        </set>
+    </class>
+</hibernate-mapping>

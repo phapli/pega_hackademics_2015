@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 1, 2015 11:17:17 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pega.schooltasklist.database.object.Taskuser" table="taskuser" catalog="schooltasklist" optimistic-lock="version">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="task" class="com.pega.schooltasklist.database.object.Task" fetch="select">
+            <column name="Task" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.pega.schooltasklist.database.object.User" fetch="select">
+            <column name="User" length="10" not-null="true" />
+        </many-to-one>
+        <property name="createDate" type="timestamp">
+            <column name="CreateDate" length="19" />
+        </property>
+        <property name="active" type="java.lang.Boolean">
+            <column name="Active" />
+        </property>
+    </class>
+</hibernate-mapping>
