@@ -1,6 +1,7 @@
 package com.pega.schooltasklist.database.dao;
 
-import com.pega.schooltasklist.database.object.Groupuser;
+import com.pega.schooltasklist.database.object.Taskuser;
+import com.pega.schooltasklist.database.object.User;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,10 +12,10 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
 
-public class GroupUserDAO {
+public class TaskUserDAO {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GroupUserDAO.class);
-    private static GroupUserDAO instance = null;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TaskUserDAO.class);
+    private static TaskUserDAO instance = null;
     private final SessionFactory sessionFactory = SessionFactoryUtil
             .getSessionFactory();
 
@@ -28,31 +29,32 @@ public class GroupUserDAO {
         session.close();
     }
 
-    private GroupUserDAO() {
+    private TaskUserDAO() {
     }
 
-    public static GroupUserDAO getInstance() {
+    public static TaskUserDAO getInstance() {
         if (instance == null) {
-            instance = new GroupUserDAO();
+            instance = new TaskUserDAO();
         }
         return instance;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Groupuser> getGroupMember(String ID) {
+    public List<Taskuser> getAllTask(String ID) {
 
         Session session = openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Groupuser.class)
-                    .add(Restrictions.eq("group.id", ID))
+            Criteria criteria = session.createCriteria(Taskuser.class)
+                    .add(Restrictions.eq("user.id", ID))
+                    .add(Restrictions.eq("done", false))
                     .add(Restrictions.eq("active", true));
 
-            List<Groupuser> groupusers = criteria.list();
+            List<Taskuser> taskusers = criteria.list();
             transaction.commit();
-            if (groupusers.size() > 0) {
-                return groupusers;
+            if (taskusers.size() > 0) {
+                return taskusers;
             }
         } catch (HibernateException e) {
             if (transaction != null) {
@@ -65,14 +67,14 @@ public class GroupUserDAO {
         return null;
     }
 
-    public long save(Groupuser groupuser) {
+    public long save(Taskuser taskuser) {
 
         Session session = openSession();
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            long res = (Long) session.save(groupuser);
+            long res = (Long) session.save(taskuser);
             transaction.commit();
 
             return res;
@@ -88,13 +90,13 @@ public class GroupUserDAO {
 
     }
 
-    public void update(Groupuser groupuser) {
+    public void update(Taskuser taskuser) {
 
         Session session = openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.merge(groupuser);
+            session.merge(taskuser);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {

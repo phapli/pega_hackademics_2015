@@ -1,5 +1,5 @@
 package com.pega.schooltasklist.database.object;
-// Generated Aug 1, 2015 11:17:17 PM by Hibernate Tools 4.3.1
+// Generated Aug 2, 2015 12:38:57 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;

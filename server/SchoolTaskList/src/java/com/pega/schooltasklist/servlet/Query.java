@@ -5,8 +5,13 @@
  */
 package com.pega.schooltasklist.servlet;
 
+import com.pega.schooltasklist.database.dao.TaskUserDAO;
+import com.pega.schooltasklist.database.dao.UserDAO;
+import com.pega.schooltasklist.database.object.Taskuser;
+import com.pega.schooltasklist.database.object.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,14 +35,19 @@ public class Query extends HttpServlet {
     private static final String T_CODE = "ResponseCode";
     private static final String T_MESSAGE = "ResponseMessage";
     private static final String T_FUNCTION = "Function";
-    
+    private static final String T_USER_ID = "UserID";
+    private static final String T_PASSWORD = "Password";
+    private static final String T_FIRST_NAME = "FirstName";
+    private static final String T_GRADE = "Grade";
+    private static final String T_LAST_NAME = "LastName";
+    private static final String T_ROLE = "Role";
+
     private static final int C_SUCCESS = 0;
     private static final String M_SUCCESS = "Success";
     private static final int C_UNKNOWN = -1;
     private static final String M_UNKNOWN = "Unknown Error";
     private static final int C_LOGIN_FAIL = 1;
-    private static final String M_LOGIN_FAIL = "Login Fail";
-    
+    private static final String M_LOGIN_FAIL = "UserID or Password is incorrect";
 
     private static final int F_LOGIN = 1;
     private static final int F_GET_ALL_TASK = 2;
@@ -53,6 +63,7 @@ public class Query extends HttpServlet {
     private static final int F_QUERY_USER = 12;
     private static final int F_DELETE_MEMBER = 13;
     private static final int F_CREATE_GROUP = 14;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,6 +96,7 @@ public class Query extends HttpServlet {
                     result = login(reqJson);
                     break;
                 case F_GET_ALL_TASK:
+                    result = getAllTask(reqJson);
                     break;
                 case F_GET_ALL_CHILD:
                     break;
@@ -167,12 +179,48 @@ public class Query extends HttpServlet {
     }// </editor-fold>
 
     private JSONObject login(JSONObject reqJson) {
-        
+
         try {
+            String userID = reqJson.getString(T_USER_ID);
+            String password = reqJson.getString(T_PASSWORD);
+            User user = UserDAO.getInstance().login(userID, password);
             JSONObject resJson = new JSONObject();
-            resJson.remove(T_CODE);
-            resJson.put(T_CODE, C_SUCCESS);
-            resJson.put(T_MESSAGE, M_SUCCESS);
+            if (user != null) {
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+                resJson.put(T_USER_ID, user.getId());
+                resJson.put(T_FIRST_NAME, user.getFirstName());
+                resJson.put(T_GRADE, user.getGrade());
+                resJson.put(T_LAST_NAME, user.getLastName());
+                resJson.put(T_ROLE, user.getRole().getId());
+            }else{
+                resJson.put(T_CODE, C_LOGIN_FAIL);
+                resJson.put(T_MESSAGE, M_LOGIN_FAIL);
+            }
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
+    }
+
+    private JSONObject getAllTask(JSONObject reqJson) {
+        try {
+            String userID = reqJson.getString(T_USER_ID);
+            List<Taskuser> taskusers = TaskUserDAO.getInstance().getAllTask(userID);
+            JSONObject resJson = new JSONObject();
+            if (user != null) {
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+                resJson.put(T_USER_ID, user.getId());
+                resJson.put(T_FIRST_NAME, user.getFirstName());
+                resJson.put(T_GRADE, user.getGrade());
+                resJson.put(T_LAST_NAME, user.getLastName());
+                resJson.put(T_ROLE, user.getRole().getId());
+            }else{
+                resJson.put(T_CODE, C_LOGIN_FAIL);
+                resJson.put(T_MESSAGE, M_LOGIN_FAIL);
+            }
             return resJson;
         } catch (JSONException ex) {
             LOGGER.error("", ex);
