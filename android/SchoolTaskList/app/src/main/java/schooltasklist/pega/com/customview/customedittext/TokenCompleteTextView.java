@@ -49,6 +49,9 @@ import java.util.List;
 public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView implements TextView.OnEditorActionListener {
     //Logging
     public static final String TAG = "TokenAutoComplete";
+    private boolean mEnableThresholdZero;
+
+    private List<T> mLsObjectHintsInit;
 
     //When the token is deleted...
     public enum TokenDeleteStyle {
@@ -418,6 +421,10 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
         }
 
         //Don't allow 0 length entries to filter
+        // allow 0 to show all member in list
+        if (mEnableThresholdZero) {
+            return end - start >= 0;
+        }
         return end - start >= Math.max(getThreshold(), 1);
     }
 
@@ -765,6 +772,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
                 QwertyKeyListener.markAsReplaced(editable, start, end, original);
                 editable.replace(start, end, ssb);
                 editable.setSpan(tokenSpan, start, start + ssb.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             }
         }
     }
@@ -786,6 +794,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
      * @param sourceText the text used if this object is deleted
      */
     public void addObject(final T object, final CharSequence sourceText) {
+        Log.d("AUTOCOMPLETE", "addObject: init");
         post(new Runnable() {
             @Override
             public void run() {
@@ -796,6 +805,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
                 if (getText() != null && isFocused()) setSelection(getText().length());
             }
         });
+        Log.d("AUTOCOMPLETE", "addObject: finish");
     }
 
     /**
@@ -814,6 +824,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
      * @param object object to remove, may be null or not in the view
      */
     public void removeObject(final T object) {
+        Log.d("AUTOCOMPLETE", "removeObject: init");
         post(new Runnable() {
             @Override
             public void run() {
@@ -846,6 +857,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
                 }
             }
         });
+        Log.d("AUTOCOMPLETE", "removeObject: finish");
     }
 
     /**
@@ -976,6 +988,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
     }
 
     private void updateHint() {
+        Log.d("AUTOCOMPLETE","updateHint-first");
         Editable text = getText();
         CharSequence hintText = getHint();
         if (text == null || hintText == null) {
@@ -1027,6 +1040,7 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
                 hintVisible = false;
             }
         }
+        Log.d("AUTOCOMPLETE","updateHint-finish");
     }
 
     private void clearSelections() {
@@ -1356,5 +1370,14 @@ public abstract class TokenCompleteTextView<T> extends MultiAutoCompleteTextView
 
             return deleteSelectedObject(false) || super.deleteSurroundingText(beforeLength, afterLength);
         }
+    }
+
+    // Nhan - edit
+    public void enableThreshHoldZero(boolean isEnable) {
+        mEnableThresholdZero = isEnable;
+    }
+
+    public void setListHintObjectInit(List<T> lsObjectInit) {
+        mLsObjectHintsInit = lsObjectInit;
     }
 }

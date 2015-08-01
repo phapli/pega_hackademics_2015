@@ -67,7 +67,7 @@
 
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityAddTask"
-
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_activity_add_task" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

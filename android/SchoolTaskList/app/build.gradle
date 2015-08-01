@@ -24,5 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:support-annotations:21.0.2'
+    compile 'com.wdullaer:materialdatetimepicker:1.4.2'
     apply plugin: 'com.google.gms.google-services'
 }

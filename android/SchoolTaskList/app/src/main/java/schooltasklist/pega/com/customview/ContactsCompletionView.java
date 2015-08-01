@@ -18,6 +18,7 @@ import schooltasklist.pega.com.schooltasklist.R;
  */
 public class ContactsCompletionView extends TokenCompleteTextView<User> {
 
+
     public ContactsCompletionView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -34,9 +35,11 @@ public class ContactsCompletionView extends TokenCompleteTextView<User> {
     protected User defaultObject(String completionText) {
         int index = completionText.indexOf('@');
         if (index == -1) {
-            return new User(completionText, completionText.replace(" ", "") + "@example.com");
+            return new User(completionText, completionText.replace(" ", "") + "@example.com","-1");
         } else {
-            return new User(completionText.substring(0, index), completionText);
+            return new User(completionText.substring(0, index), completionText,"-1");
         }
     }
+
+
 }
