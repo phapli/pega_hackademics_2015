@@ -1,14 +1,15 @@
 package com.pega.schooltasklist.database.dao;
 
 import com.pega.schooltasklist.database.object.Taskuser;
-import com.pega.schooltasklist.database.object.User;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +50,16 @@ public class TaskUserDAO {
             Criteria criteria = session.createCriteria(Taskuser.class)
                     .add(Restrictions.eq("user.id", ID))
                     .add(Restrictions.eq("done", false))
-                    .add(Restrictions.eq("active", true));
+                    .add(Restrictions.eq("active", true))
+                    .addOrder(Order.asc("createDate"));
 
             List<Taskuser> taskusers = criteria.list();
             transaction.commit();
             if (taskusers.size() > 0) {
+                for (Taskuser t : taskusers) {
+                Hibernate.initialize(t.getTask());
+                Hibernate.initialize(t.getTask().getGroup());
+                }
                 return taskusers;
             }
         } catch (HibernateException e) {

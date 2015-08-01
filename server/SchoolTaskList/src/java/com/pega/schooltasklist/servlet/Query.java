@@ -13,13 +13,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -41,6 +40,13 @@ public class Query extends HttpServlet {
     private static final String T_GRADE = "Grade";
     private static final String T_LAST_NAME = "LastName";
     private static final String T_ROLE = "Role";
+    private static final String T_TASK_ID = "TaskID";
+    private static final String T_DEADLINE = "Deadline";
+    private static final String T_GROUP_ID = "GroupID";
+    private static final String T_GROUP_NAME = "GroupName";
+    private static final String T_TASK = "Task";
+    private static final String T_TASKS = "Tasks";
+    private static final String T_USERS = "Users";
 
     private static final int C_SUCCESS = 0;
     private static final String M_SUCCESS = "Success";
@@ -99,6 +105,7 @@ public class Query extends HttpServlet {
                     result = getAllTask(reqJson);
                     break;
                 case F_GET_ALL_CHILD:
+                    result = getAllChid(reqJson);
                     break;
                 case F_GET_ALL_GROUP:
                     break;
@@ -193,7 +200,7 @@ public class Query extends HttpServlet {
                 resJson.put(T_GRADE, user.getGrade());
                 resJson.put(T_LAST_NAME, user.getLastName());
                 resJson.put(T_ROLE, user.getRole().getId());
-            }else{
+            } else {
                 resJson.put(T_CODE, C_LOGIN_FAIL);
                 resJson.put(T_MESSAGE, M_LOGIN_FAIL);
             }
@@ -209,18 +216,48 @@ public class Query extends HttpServlet {
             String userID = reqJson.getString(T_USER_ID);
             List<Taskuser> taskusers = TaskUserDAO.getInstance().getAllTask(userID);
             JSONObject resJson = new JSONObject();
-            if (user != null) {
-                resJson.put(T_CODE, C_SUCCESS);
-                resJson.put(T_MESSAGE, M_SUCCESS);
-                resJson.put(T_USER_ID, user.getId());
-                resJson.put(T_FIRST_NAME, user.getFirstName());
-                resJson.put(T_GRADE, user.getGrade());
-                resJson.put(T_LAST_NAME, user.getLastName());
-                resJson.put(T_ROLE, user.getRole().getId());
-            }else{
-                resJson.put(T_CODE, C_LOGIN_FAIL);
-                resJson.put(T_MESSAGE, M_LOGIN_FAIL);
+            resJson.put(T_CODE, C_SUCCESS);
+            resJson.put(T_MESSAGE, M_SUCCESS);
+            JSONArray taskArray = new JSONArray();
+            if (taskusers != null) {
+                for (Taskuser taskuser : taskusers) {
+                    JSONObject task = new JSONObject();
+                    task.put(T_TASK_ID, taskuser.getTask().getId());
+                    task.put(T_DEADLINE, taskuser.getTask().getDeadline());
+                    task.put(T_GROUP_ID, taskuser.getTask().getGroup().getId());
+                    task.put(T_GROUP_NAME, taskuser.getTask().getGroup().getName());
+                    task.put(T_TASK, taskuser.getTask().getTaskContent());
+                    taskArray.put(task);
+                }
             }
+            resJson.put(T_TASKS, taskArray);
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
+    }
+
+    private JSONObject getAllChid(JSONObject reqJson) {
+        try {
+            String userID = reqJson.getString(T_USER_ID);
+            List<User> users = UserDAO.getInstance().getAllChild(userID);
+            JSONObject resJson = new JSONObject();
+            resJson.put(T_CODE, C_SUCCESS);
+            resJson.put(T_MESSAGE, M_SUCCESS);
+            JSONArray userArray = new JSONArray();
+            if (users != null) {
+                for (User user : users) {
+                    JSONObject userObj = new JSONObject();
+                    userObj.put(T_USER_ID, user.getId());
+                    userObj.put(T_FIRST_NAME, user.getFirstName());
+                    userObj.put(T_GRADE, user.getGrade());
+                    userObj.put(T_LAST_NAME, user.getLastName());
+                    userObj.put(T_ROLE, user.getRole().getId());
+                    userArray.put(userObj);
+                }
+            }
+            resJson.put(T_USERS, userArray);
             return resJson;
         } catch (JSONException ex) {
             LOGGER.error("", ex);

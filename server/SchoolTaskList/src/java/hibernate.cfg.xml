@@ -7,6 +7,7 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/schooltasklist</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456</property>
+    
     <mapping resource="com/pega/schooltasklist/database/object/Groupuser.hbm.xml"/>
     <mapping resource="com/pega/schooltasklist/database/object/Role.hbm.xml"/>
     <mapping resource="com/pega/schooltasklist/database/object/Group.hbm.xml"/>
