@@ -66,7 +66,7 @@ public class TaskDAO {
     }
     
     @SuppressWarnings("unchecked")
-    public List<Task> getGroupTasks(String ID) {
+    public List<Task> getGroupTasks(long ID) {
         
         Session session = openSession();
         Transaction transaction = null;

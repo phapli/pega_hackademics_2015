@@ -41,7 +41,7 @@ public class GroupUserDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Groupuser> getGroupMember(String ID) {
+    public List<Groupuser> getGroupMember(long ID) {
 
         Session session = openSession();
         Transaction transaction = null;
