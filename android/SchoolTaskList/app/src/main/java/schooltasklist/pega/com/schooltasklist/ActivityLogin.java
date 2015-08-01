@@ -1,13 +1,18 @@
 package schooltasklist.pega.com.schooltasklist;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class ActivityLogin extends ActionBarActivity {
-
+    private EditText username;
+    private EditText password;
+    private TextView login;
+    private TextView forgot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
