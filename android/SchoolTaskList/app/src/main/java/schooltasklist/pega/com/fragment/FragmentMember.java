@@ -10,16 +10,13 @@ import android.view.ViewGroup;
 import schooltasklist.pega.com.schooltasklist.R;
 
 /**
- * Created by D.PHI on 8/1/2015.
+ * Created by D.PHI on 8/2/2015.
  */
-public class FragmentGroup extends Fragment{
-
-
-
+public class FragmentMember extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_group, container, false);
+        return inflater.inflate(R.layout.fragment_member, container, false);
     }
 
     @Override

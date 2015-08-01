@@ -1,18 +1,99 @@
 package schooltasklist.pega.com.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import schooltasklist.pega.com.fragment.FragmentGroup;
+import schooltasklist.pega.com.fragment.FragmentTask;
 import schooltasklist.pega.com.schooltasklist.R;
 
-public class ActivityGroup extends ActionBarActivity {
+public class ActivityGroup extends FragmentActivity {
+    private ImageView iv_setting;
+    private ImageView iv_add;
+    private ImageView iv_task;
+    private ImageView iv_member;
+    private TextView tv_groupname;
+
+    private boolean isTask =  true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+        iv_setting = (ImageView) findViewById(R.id.iv_activitygroup_setting);
+        iv_add = (ImageView) findViewById(R.id.iv_activitygroup_add);
+        iv_task = (ImageView) findViewById(R.id.iv_activitygroup_task);
+        iv_member = (ImageView) findViewById(R.id.iv_activitygroup_member);
+        tv_groupname = (TextView) findViewById(R.id.tv_activitygroup_title);
+        if(isTask)
+        {
+
+            iv_task.setImageResource(R.drawable.leftdeactive);
+            iv_member.setImageResource(R.drawable.memberrightdeactive);
+            iv_task.setImageResource(R.drawable.leftactive);
+        iv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        iv_member.setImageResource(R.drawable.memberrightactive);
+    }
+    if (savedInstanceState == null) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTask fragment = new FragmentTask();
+        transaction.replace(R.id.fragment_main_content, fragment);
+        transaction.commit();
+    }
+        iv_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        iv_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isTask)
+                {}
+                else
+                {
+                    iv_task.setImageResource(R.drawable.leftdeactive);
+                    iv_member.setImageResource(R.drawable.memberrightdeactive);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTask fragment = new FragmentTask();
+                    transaction.replace(R.id.fragment_group_content, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTask = true;
+                }
+            }
+        });
+        iv_member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isTask)
+                {}
+                else
+                {
+                    iv_task.setImageResource(R.drawable.leftactive);
+                    iv_member.setImageResource(R.drawable.memberrightactive);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    FragmentGroup fragment = new FragmentGroup();
+                    transaction.replace(R.id.fragment_group_content, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    isTask = false;
+                }
+            }
+        });
     }
 
 

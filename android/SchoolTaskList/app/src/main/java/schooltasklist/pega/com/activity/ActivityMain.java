@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import schooltasklist.pega.com.fragment.FragmentGroup;
 import schooltasklist.pega.com.fragment.FragmentTask;
@@ -18,6 +19,7 @@ public class ActivityMain extends FragmentActivity {
     private ImageView iv_add;
     private ImageView iv_task;
     private ImageView iv_group;
+    private TextView  tv_username;
 
     private boolean isTask =  true;
 
@@ -29,6 +31,7 @@ public class ActivityMain extends FragmentActivity {
         iv_add = (ImageView) findViewById(R.id.iv_activitymain_add);
         iv_task = (ImageView) findViewById(R.id.iv_activitymain_task);
         iv_group = (ImageView) findViewById(R.id.iv_activitymain_group);
+        tv_username = (TextView) findViewById(R.id.tv_activitymain_title);
         if(isTask)
         {
 
