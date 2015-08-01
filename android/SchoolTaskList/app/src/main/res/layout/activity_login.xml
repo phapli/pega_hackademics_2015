@@ -23,7 +23,7 @@
             android:paddingRight="10dp"
             android:singleLine="true"
             android:hint="Student id"
-            android:textColorHint="#167dff"/>
+            android:textColorHint="@color/hint_color"/>
         <!-- Password Label -->
 
         <EditText
@@ -33,11 +33,11 @@
             android:layout_marginTop="5dip"
             android:background="@drawable/oval"
             android:inputType="textPassword"
-            android:paddingLeft="1dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
             android:hint="password"
-            android:textColorHint="#167dff"/>
+            android:textColorHint="@color/hint_color"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
