@@ -46,11 +46,6 @@ android/.idea/copyright/profiles_settings.xml
 android/.idea/gradle.xml
 android/.idea/modules.xml
 android/.idea/workspace.xml
-android/.idea/compiler.xml
-android/.idea/encodings.xml
-android/.idea/vcs.xml
-android/SchoolTaskList/.idea/gradle.xml
-android/SchoolTaskList/.idea/gradle.xml
-android/SchoolTaskList/.idea/gradle.xml
-android/SchoolTaskList/app/app.iml
-android/SchoolTaskList/.idea/misc.xml
+/server/SchoolTaskList/build/
+/server/WebApplication1/nbproject/private/
+/server/SchoolTaskList/dist/
