@@ -1,15 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"  tools:context=".ActivityLogin"
-    android:background="#EEEEEE">
+    android:orientation="vertical"
 
+    android:layout_height="match_parent"  tools:context=".ActivityLogin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500px"
+        android:background="@drawable/banner"
+        >
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="45dp"
         android:paddingRight="45dp"
-        android:gravity="center"
+
         android:layout_centerVertical="true">
 
         <EditText
@@ -17,7 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_marginTop="25dip"
             android:background="@drawable/oval"
             android:inputType="text"
             android:paddingLeft="10dp"
@@ -74,4 +82,4 @@
             </LinearLayout>
         </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

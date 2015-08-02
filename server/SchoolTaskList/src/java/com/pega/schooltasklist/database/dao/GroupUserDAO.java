@@ -48,7 +48,7 @@ public class GroupUserDAO {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Groupuser.class)
-                    .add(Restrictions.eq("group.id", ID))
+                    .add(Restrictions.eq("schoolgroup.id", ID))
                     .add(Restrictions.eq("active", true));
 
             List<Groupuser> groupusers = criteria.list();
@@ -117,6 +117,27 @@ public class GroupUserDAO {
             }
             LOGGER.error("", e);
             return -1;
+        } finally {
+            closeSession(session);
+        }
+
+    }
+
+    public void delete(Groupuser groupuser) {
+
+        Session session = openSession();
+
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(groupuser);
+            transaction.commit();
+
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOGGER.error("", e);
         } finally {
             closeSession(session);
         }

@@ -59,6 +59,8 @@ public class Query extends HttpServlet {
     private static final String T_USERS = "Users";
     private static final String T_GROUP_DESCRIPTION = "GroupDescription";
     private static final String T_GROUPS = "Groups";
+    private static final String T_EMAIL = "Email";
+    private static final String T_QUERY = "Query";
 
     private static final int C_SUCCESS = 0;
     private static final String M_SUCCESS = "Success";
@@ -225,6 +227,7 @@ public class Query extends HttpServlet {
                 resJson.put(T_FIRST_NAME, user.getFirstName());
                 resJson.put(T_GRADE, user.getGrade());
                 resJson.put(T_LAST_NAME, user.getLastName());
+                resJson.put(T_EMAIL, user.getEmail());
                 resJson.put(T_ROLE, user.getRole().getId());
             } else {
                 resJson.put(T_CODE, C_LOGIN_FAIL);
@@ -279,6 +282,7 @@ public class Query extends HttpServlet {
                     userObj.put(T_FIRST_NAME, user.getFirstName());
                     userObj.put(T_GRADE, user.getGrade());
                     userObj.put(T_LAST_NAME, user.getLastName());
+                    userObj.put(T_EMAIL, user.getEmail());
                     userObj.put(T_ROLE, user.getRole().getId());
                     userArray.put(userObj);
                 }
@@ -401,6 +405,7 @@ public class Query extends HttpServlet {
                     userObj.put(T_FIRST_NAME, gu.getUser().getFirstName());
                     userObj.put(T_GRADE, gu.getUser().getGrade());
                     userObj.put(T_LAST_NAME, gu.getUser().getLastName());
+                    userObj.put(T_EMAIL, gu.getUser().getEmail());
                     userObj.put(T_ROLE, gu.getUser().getRole().getId());
                     userArray.put(userObj);
                 }
@@ -447,23 +452,125 @@ public class Query extends HttpServlet {
     }
 
     private JSONObject deleteTask(JSONObject reqJson) {
+        try {
+            long taskID = reqJson.getLong(T_TASK_ID);
+            Task task = TaskDAO.getInstance().getTask(taskID);
+            TaskDAO.getInstance().delete(task);
+            JSONObject resJson = new JSONObject();
+            resJson.put(T_CODE, C_SUCCESS);
+            resJson.put(T_MESSAGE, M_SUCCESS);
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
         return null;
     }
 
     private JSONObject addMember(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            long groupID = reqJson.getLong(T_GROUP_ID);
+            JSONArray userArray = reqJson.getJSONArray(T_USERS);
+
+            Schoolgroup group = GroupDAO.getInstance().getGroup(groupID);
+            JSONObject resJson = new JSONObject();
+            if (group != null) {
+                for (int i = 0; i < userArray.length(); i++) {
+                    String userID = userArray.getString(i);
+                    User user = UserDAO.getInstance().getUser(userID);
+                    if (user != null) {
+                        Groupuser groupuser = new Groupuser(group, user, true, new Date());
+                        GroupUserDAO.getInstance().save(groupuser);
+                    }
+                }
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+            } else {
+                resJson.put(T_CODE, C_GET_GROUP_FAIL);
+                resJson.put(T_MESSAGE, M_GET_GROUP_FAIL);
+            }
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
     private JSONObject queryUser(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List<User> users = UserDAO.getInstance().queryUser();
+            JSONObject resJson = new JSONObject();
+            resJson.put(T_CODE, C_SUCCESS);
+            resJson.put(T_MESSAGE, M_SUCCESS);
+            JSONArray userArray = new JSONArray();
+            if (users != null) {
+                for (User user : users) {
+                    JSONObject userObj = new JSONObject();
+                    userObj.put(T_USER_ID, user.getId());
+                    userObj.put(T_FIRST_NAME, user.getFirstName());
+                    userObj.put(T_GRADE, user.getGrade());
+                    userObj.put(T_LAST_NAME, user.getLastName());
+                    userObj.put(T_EMAIL, user.getEmail());
+                    userObj.put(T_ROLE, user.getRole().getId());
+                    userArray.put(userObj);
+                }
+            }
+            resJson.put(T_USERS, userArray);
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
     private JSONObject deleteMember(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            long groupID = reqJson.getLong(T_GROUP_ID);
+            JSONArray userArray = reqJson.getJSONArray(T_USERS);
+
+            Schoolgroup group = GroupDAO.getInstance().getGroup(groupID);
+            JSONObject resJson = new JSONObject();
+            if (group != null) {
+                for (int i = 0; i < userArray.length(); i++) {
+                    String userID = userArray.getString(i);
+                    User user = UserDAO.getInstance().getUser(userID);
+                    if (user != null) {
+                        Groupuser groupuser = new Groupuser(group, user, true, new Date());
+                        GroupUserDAO.getInstance().delete(groupuser);
+                    }
+                }
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+            } else {
+                resJson.put(T_CODE, C_GET_GROUP_FAIL);
+                resJson.put(T_MESSAGE, M_GET_GROUP_FAIL);
+            }
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
     private JSONObject createGroup(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            String name = reqJson.getString(T_GROUP_NAME);
+            String description = reqJson.getString(T_GROUP_DESCRIPTION);
+            String userID = reqJson.getString(T_USER_ID);
+
+            User user = UserDAO.getInstance().getUser(userID);
+
+            JSONObject resJson = new JSONObject();
+            if (user != null) {
+                Schoolgroup group = new Schoolgroup(user, name, description, new Date(), true, null, null);
+                GroupDAO.getInstance().save(group);
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+            }
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
     private Date formatDate(String deadlineString) {

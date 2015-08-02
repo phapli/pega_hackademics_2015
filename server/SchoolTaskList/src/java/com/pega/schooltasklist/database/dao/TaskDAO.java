@@ -73,7 +73,7 @@ public class TaskDAO {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Task.class)
-                    .add(Restrictions.eq("group.id", ID))
+                    .add(Restrictions.eq("schoolgroup.id", ID))
                     .add(Restrictions.eq("active", true));
 
             List<Task> tasks = criteria.list();

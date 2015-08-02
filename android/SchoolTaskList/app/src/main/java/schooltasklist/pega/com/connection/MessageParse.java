@@ -414,6 +414,94 @@ public class MessageParse {
         return false;
     }
 
+
+
+    public static JSONObject deleteTaskQuery(int taskID) throws JSONException {
+        ArrayList<User> users = new ArrayList<>();
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_DELETE_TASK);
+        reqJson.put(T_TASK_ID, 1);
+        return reqJson;
+    }
+
+    public static boolean deleteTaskResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
+
+
+    public static JSONObject queryUserQuery(int taskID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_QUERY_USER);
+        return reqJson;
+    }
+
+    public static ArrayList<User> queryUserResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray userArray = resJson.getJSONArray(T_USERS);
+            ArrayList<User> users = new ArrayList<>();
+            for(int i=0; i<userArray.length();i++){
+                JSONObject userObj = userArray.getJSONObject(i);
+                String id = userObj.getString(T_USER_ID);
+                String fName = userObj.getString(T_FIRST_NAME);
+                String grade = userObj.getString(T_GRADE);
+                String lName = userObj.getString(T_LAST_NAME);
+                String email = userObj.getString(T_EMAIL);
+                int role = userObj.getInt(T_ROLE);
+                users.add(new User(email,id, lName,fName,grade, role));
+            }
+            return users;
+        }
+        return null;
+    }
+
+
+    public static JSONObject createGroupQuery(String groupName, String desc, String userID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_CREATE_GROUP);
+        reqJson.put(T_GROUP_NAME, groupName);
+        reqJson.put(T_GROUP_DESCRIPTION, desc);
+        reqJson.put(T_USER_ID, userID);
+       return reqJson;
+    }
+
+    public static boolean createGroupResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
+
+    public static JSONObject deleteMemberQuery(int groupID) throws JSONException {
+        ArrayList<User> users = new ArrayList<>();
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_DELETE_MEMBER);
+        reqJson.put(T_GROUP_ID, groupID);
+        JSONArray userArray = new JSONArray();
+        for(User u: users){
+            userArray.put(u.getId());
+        }
+        reqJson.put(T_USERS, userArray);
+        return reqJson;
+    }
+
+    public static boolean deleteMemberResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
+
     private static Date formatDate(String deadlineString) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -1,5 +1,5 @@
 package com.pega.schooltasklist.database.object;
-// Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1
+// Generated Aug 2, 2015 7:51:34 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -21,6 +21,7 @@ public class User  implements java.io.Serializable {
      private Boolean active;
      private Date createDate;
      private String password;
+     private String email;
      private Set taskusers = new HashSet(0);
      private Set groupusers = new HashSet(0);
      private Set users = new HashSet(0);
@@ -34,7 +35,7 @@ public class User  implements java.io.Serializable {
         this.id = id;
         this.role = role;
     }
-    public User(String id, Role role, User user, String lastName, String firstName, String grade, Boolean active, Date createDate, String password, Set taskusers, Set groupusers, Set users, Set schoolgroups) {
+    public User(String id, Role role, User user, String lastName, String firstName, String grade, Boolean active, Date createDate, String password, String email, Set taskusers, Set groupusers, Set users, Set schoolgroups) {
        this.id = id;
        this.role = role;
        this.user = user;
@@ -44,6 +45,7 @@ public class User  implements java.io.Serializable {
        this.active = active;
        this.createDate = createDate;
        this.password = password;
+       this.email = email;
        this.taskusers = taskusers;
        this.groupusers = groupusers;
        this.users = users;
@@ -112,6 +114,13 @@ public class User  implements java.io.Serializable {
     
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
     public Set getTaskusers() {
         return this.taskusers;

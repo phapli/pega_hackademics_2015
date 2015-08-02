@@ -65,4 +65,19 @@ public class ManageConnection {
         JSONObject jsonQuery = MessageParse.addTaskQuery(groupID, nameTask, date);
         new AsyncTaskConnect(listener, jsonQuery).execute();
     }
+
+    public void deleteTaskFunction(IOnGetDataFromServerComplete listener, int taskID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.deleteTaskQuery(taskID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void createGroupFunction(IOnGetDataFromServerComplete listener, String groupName, String desc, String userID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.createGroupQuery(groupName, desc, userID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void deleteMemberFunction(IOnGetDataFromServerComplete listener, int groupID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.deleteMemberQuery(groupID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
 }

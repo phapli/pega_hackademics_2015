@@ -40,14 +40,14 @@ public class UserDAO {
 
     @SuppressWarnings("unchecked")
     public User login(String ID, String pass) {
-
+        ID = ID.toLowerCase();
         Session session = openSession();
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class)
-                    .add(Restrictions.eq("id", ID))
+                    .add(Restrictions.eq("id", ID).ignoreCase())
                     .add(Restrictions.eq("password", pass))
                     .add(Restrictions.eq("active", true));
 
@@ -66,7 +66,7 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     @SuppressWarnings("unchecked")
     public User getUser(String ID) {
 
@@ -104,6 +104,31 @@ public class UserDAO {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class)
                     .add(Restrictions.eq("user.id", ID))
+                    .add(Restrictions.eq("active", true));
+
+            List<User> users = criteria.list();
+            transaction.commit();
+            if (users.size() > 0) {
+                return users;
+            }
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOGGER.error("", e);
+        } finally {
+            closeSession(session);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<User> queryUser() {
+        Session session = openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class)
                     .add(Restrictions.eq("active", true));
 
             List<User> users = criteria.list();
