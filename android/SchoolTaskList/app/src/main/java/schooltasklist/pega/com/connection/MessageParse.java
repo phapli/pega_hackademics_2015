@@ -65,61 +65,105 @@ public class MessageParse {
     private static final int F_DELETE_MEMBER = 13;
     private static final int F_CREATE_GROUP = 14;
 
-    public static void parseData(JSONObject resJson){
-        int function = 1;
-        
-        switch (function){
-            case F_LOGIN:
-                login(resJson);
-                break;
-            case F_GET_ALL_TASK:
-                getAllTask(resJson);
-                break;
-            case F_GET_ALL_CHILD:
-                getAllChid(resJson);
-                break;
-            case F_GET_ALL_GROUP:
-                getAllGroup(resJson);
-                break;
-            case F_SET_DONE:
-                setDone(resJson);
-                break;
-            case F_GET_GROUP:
-                getGroup(resJson);
-                break;
-            case F_GET_GROUP_TASKS:
-                getGroupTasks(resJson);
-                break;
-            case F_GET_GROUP_MEMBERS:
-                getGroupMembers(resJson);
-                break;
-            case F_ADD_TASK:
-                addTask(resJson);
-                break;
-            case F_DELETE_TASK:
-                deleteTask(resJson);
-                break;
-            case F_ADD_MEMBER:
-                addMember(resJson);
-                break;
-            case F_QUERY_USER:
-                queryUser(resJson);
-                break;
-            case F_DELETE_MEMBER:
-                deleteMember(resJson);
-                break;
-            case F_CREATE_GROUP:
-                createGroup(resJson);
-                break;
+//    public static void parseData(JSONObject resJson){
+//        int function = 1;
+//
+//        switch (function){
+//            case F_LOGIN:
+//                login(resJson);
+//                break;
+//            case F_GET_ALL_TASK:
+//                getAllTask(resJson);
+//                break;
+//            case F_GET_ALL_CHILD:
+//                getAllChid(resJson);
+//                break;
+//            case F_GET_ALL_GROUP:
+//                getAllGroup(resJson);
+//                break;
+//            case F_SET_DONE:
+//                setDone(resJson);
+//                break;
+//            case F_GET_GROUP:
+//                getGroup(resJson);
+//                break;
+//            case F_GET_GROUP_TASKS:
+//                getGroupTasks(resJson);
+//                break;
+//            case F_GET_GROUP_MEMBERS:
+//                getGroupMembers(resJson);
+//                break;
+//            case F_ADD_TASK:
+//                addTask(resJson);
+//                break;
+//            case F_DELETE_TASK:
+//                deleteTask(resJson);
+//                break;
+//            case F_ADD_MEMBER:
+//                addMember(resJson);
+//                break;
+//            case F_QUERY_USER:
+//                queryUser(resJson);
+//                break;
+//            case F_DELETE_MEMBER:
+//                deleteMember(resJson);
+//                break;
+//            case F_CREATE_GROUP:
+//                createGroup(resJson);
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
 
-            default:
-                break;
-        }
+    private static void createGroup(JSONObject resJson) {
+
+    }
+
+    private static void deleteMember(JSONObject resJson) {
+
+    }
+
+    private static void queryUser(JSONObject resJson) {
+
+    }
+
+    private static void addMember(JSONObject resJson) {
+
+    }
+
+    private static void deleteTask(JSONObject resJson) {
+
+    }
+
+    private static void addTask(JSONObject resJson) {
+
+    }
+
+    private static void getGroupMembers(JSONObject resJson) {
+
+    }
+
+    private static void getGroupTasks(JSONObject resJson) {
+
+    }
+
+    private static void getGroup(JSONObject resJson) {
+
+    }
+
+
+    private static void getAllGroup(JSONObject resJson) {
+
     }
 
     private static void getAllChid(JSONObject resJson) {
     }
 
+    private static void setDone(JSONObject resJson) {
+
+    }
     private static void getAllTask(JSONObject resJson) {
         try {
             int code = resJson.getInt(T_CODE);
@@ -143,7 +187,8 @@ public class MessageParse {
         }
     }
 
-    private static void login(JSONObject resJson) {
+    public static User loginResponseParse(JSONObject resJson) {
+        User user = null;
         try {
             int code = resJson.getInt(T_CODE);
             String mess = resJson.getString(T_MESSAGE);
@@ -154,12 +199,22 @@ public class MessageParse {
                 String lName = resJson.getString(T_LAST_NAME);
                 String email = resJson.getString(T_EMAIL);
                 int role = resJson.getInt(T_ROLE);
-                User user = new User(email,id, lName,fName,grade, role);
+                user = new User(email,id, lName,fName,grade, role);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return user;
     }
+
+    public static JSONObject loginQueyParam(String username, String pass) throws JSONException {
+        JSONObject paramJson = new JSONObject();
+        paramJson.put(T_FUNCTION,F_LOGIN);
+        paramJson.put(T_USER_ID, "ST0000001");
+        paramJson.put(T_PASSWORD, "123456");
+        return paramJson;
+    }
+
 
     private static Date formatDate(String deadlineString) {
         try {

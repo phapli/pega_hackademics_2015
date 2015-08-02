@@ -9,20 +9,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import schooltasklist.pega.com.config.Configs;
+
 /**
  * Created by Tran on 8/1/2015.
  */
 public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
     private Exception exception;
     private IOnGetDataFromServerComplete listener;
+    private JSONObject jsonQuery;
+    private JSONObject jsonResponse;
 
-    public AsyncTaskConnect(IOnGetDataFromServerComplete listener) {
+    public AsyncTaskConnect(IOnGetDataFromServerComplete listener, JSONObject query) {
         this.listener = listener;
+        this.jsonQuery = query;
     }
 
     protected String doInBackground(String... urls) {
         try {
-            testConnection();
+            jsonResponse = connectionToServer();
         } catch (Exception e) {
             this.exception = e;
             return null;
@@ -31,14 +36,12 @@ public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
     }
 
     protected void onPostExecute(String feed) {
-        listener.onGetDataComplete();
+        listener.onGetDataComplete(jsonResponse);
     }
 
 
 
-
-
-    public void testConnection() throws JSONException {
+    public JSONObject connectionToServer() throws JSONException {
         ConnectServer con = new ConnectServer();
         final JSONObject jsonObject= new JSONObject();
         jsonObject.put("Function",1);
@@ -54,7 +57,7 @@ public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
                 return jsonObject.toString();
             }
         });
-        JSONObject jsonObjectReceive = con.makeHttpRequest("http://10.0.239.202:8080/SchoolTaskList/query","GET",params);
+        return con.makeHttpRequest(Configs.LINK_WS,Configs.METHOD_GET,params);
 
     }
 

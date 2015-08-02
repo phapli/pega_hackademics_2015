@@ -58,34 +58,35 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
 
         loadComponent();
         setEventForComponent();
-        people = new User[]{
-                new User("Marshall Weir", "marshall@example.com","1"),
-                new User("Margaret Smith", "margaret@example.com","2"),
-                new User("Max Jordan", "1max@example.com","3"),
-                new User("Max Jordan1", "2max@example.com","4"),
-                new User("Max Jordan2", "3max@example.com","5"),
-                new User("Max Jordan3", "4max@example.com","6"),
-                new User("Max Jordan4", "5max@example.com","7"),
-                new User("Max Jordan5", "6max@example.com","8"),
-                new User("Meg Peterson", "7meg@example.com","9"),
-                new User("Amanda Johnson", "8amanda@example.com","10"),
-                new User("Terry Anderson", "9terry@example.com","11")
-        };
+//        people = new User[]{
+//                new User("Marshall Weir", "marshall@example.com","1"),
+//                new User("Margaret Smith", "margaret@example.com","2"),
+//                new User("Max Jordan", "1max@example.com","3"),
+//                new User("Max Jordan1", "2max@example.com","4"),
+//                new User("Max Jordan2", "3max@example.com","5"),
+//                new User("Max Jordan3", "4max@example.com","6"),
+//                new User("Max Jordan4", "5max@example.com","7"),
+//                new User("Max Jordan5", "6max@example.com","8"),
+//                new User("Meg Peterson", "7meg@example.com","9"),
+//                new User("Amanda Johnson", "8amanda@example.com","10"),
+//                new User("Terry Anderson", "9terry@example.com","11")
+//        };
 
         adapter = new FilteredArrayAdapter<User>(this, android.R.layout.simple_list_item_1, people) {
             @Override
             protected boolean keepObject(User obj, String mask) {
-                mask = mask.toLowerCase();
-                String[] ls = mask.split(",");
-                String maskCurrent = ls [0];
-                boolean blFirst =  obj.getName().toLowerCase().startsWith(mask) || obj.getEmail().toLowerCase().startsWith(mask);
-                boolean blAnother = true;
-                int i = 1;
-                for ( i=1; i<ls.length; i++) {
-                    String maskTemp = ls[i];
-                    blAnother = blAnother || obj.getId().toLowerCase().equals(maskTemp.trim());
-                }
-                return blAnother;
+//                mask = mask.toLowerCase();
+//                String[] ls = mask.split(",");
+//                String maskCurrent = ls [0];
+//                boolean blFirst =  obj.getName().toLowerCase().startsWith(mask) || obj.getEmail().toLowerCase().startsWith(mask);
+//                boolean blAnother = true;
+//                int i = 1;
+//                for ( i=1; i<ls.length; i++) {
+//                    String maskTemp = ls[i];
+//                    blAnother = blAnother || obj.getId().toLowerCase().equals(maskTemp.trim());
+//                }
+//                return blAnother;
+                return true;
             }
         };
 

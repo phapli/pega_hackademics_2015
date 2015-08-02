@@ -34,11 +34,12 @@ public class ContactsCompletionView extends TokenCompleteTextView<User> {
     @Override
     protected User defaultObject(String completionText) {
         int index = completionText.indexOf('@');
-        if (index == -1) {
-            return new User(completionText, completionText.replace(" ", "") + "@example.com","-1");
-        } else {
-            return new User(completionText.substring(0, index), completionText,"-1");
-        }
+//        if (index == -1) {
+//            return new User(completionText, completionText.replace(" ", "") + "@example.com","-1");
+//        } else {
+//            return new User(completionText.substring(0, index), completionText,"-1");
+//        }
+        return null;
     }
 
 
