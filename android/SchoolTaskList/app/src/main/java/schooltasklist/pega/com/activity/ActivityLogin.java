@@ -80,7 +80,7 @@ public class ActivityLogin extends ActionBarActivity {
                 try {
                     ArrayList<Task> tasks = MessageParse.getAllTaskResponse(jsonResponse);
                     if (tasks!= null) {
-                        Log.d("TEST", "uccessful!");
+                        Log.d("TEST", "successful!");
                     }
                     else {
                         Log.d("TEST", "unsuccessful!");

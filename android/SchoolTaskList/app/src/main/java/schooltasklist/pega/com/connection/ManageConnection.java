@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,11 +25,6 @@ public class ManageConnection {
         return instances;
    }
 
-//   public void testConnection(IOnGetDataFromServerComplete listener) {
-//       // connect to server and getData
-//       new AsyncTaskConnect(listener, loginFunction()).execute();
-//   }
-
     public void loginFunction(IOnGetDataFromServerComplete listener, String username, String password) throws JSONException {
         JSONObject jsonQuery = MessageParse.loginQueyParam(username,password);
         new AsyncTaskConnect(listener, jsonQuery).execute();
@@ -39,4 +35,37 @@ public class ManageConnection {
         new AsyncTaskConnect(listener, jsonQuery).execute();
     }
 
+    public void getAllChildFunction(IOnGetDataFromServerComplete listener, String id) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getAllChildQuery(id);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void getAllGroupFunction(IOnGetDataFromServerComplete listener, String id) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getAllGroupQuery(id);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void setDoneFunction(IOnGetDataFromServerComplete listener, String userID, int taskID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.setDoneQuery(userID, taskID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void getGroupFunction(IOnGetDataFromServerComplete listener, int groupID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getGroupQuery(groupID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void getGroupTaskFunction(IOnGetDataFromServerComplete listener, int groupID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getGroupTasksQuery(groupID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+    public void getGroupMemberFunction(IOnGetDataFromServerComplete listener, int groupID) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getGroupMemberQuery(groupID);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
+    public void addTaskFunction(IOnGetDataFromServerComplete listener, int groupID, String nameTask, Date date) throws JSONException {
+        JSONObject jsonQuery = MessageParse.addTaskQuery(groupID, nameTask, date);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
 }

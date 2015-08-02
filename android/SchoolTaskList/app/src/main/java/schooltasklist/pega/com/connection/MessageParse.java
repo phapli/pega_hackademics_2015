@@ -245,6 +245,176 @@ public class MessageParse {
         }
     }
 
+    public static JSONObject getAllChildQuery(String userID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_ALL_CHILD);
+        reqJson.put(T_USER_ID, userID);
+        return reqJson;
+    }
+
+    public static ArrayList<User> getAllChildResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray userArray = resJson.getJSONArray(T_USERS);
+            ArrayList<User> users = new ArrayList<>();
+            for(int i=0; i<userArray.length();i++){
+                JSONObject userObj = userArray.getJSONObject(i);
+                String id = userObj.getString(T_USER_ID);
+                String fName = userObj.getString(T_FIRST_NAME);
+                String grade = userObj.getString(T_GRADE);
+                String lName = userObj.getString(T_LAST_NAME);
+                String email = userObj.getString(T_EMAIL);
+                int role = userObj.getInt(T_ROLE);
+                users.add(new User(email,id, lName,fName,grade, role));
+            }
+            return users;
+        }
+        else return null;
+    }
+
+
+
+    public static JSONObject getAllGroupQuery(String userID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_ALL_GROUP);
+        reqJson.put(T_USER_ID, userID);
+        return reqJson;
+    }
+
+    public static ArrayList<Group> getAllGroupResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray groupArray = resJson.getJSONArray(T_GROUPS);
+            ArrayList<Group> groups = new ArrayList<>();
+            for(int i=0; i<groupArray.length();i++){
+                JSONObject groupObj = groupArray.getJSONObject(i);
+                long id = groupObj.getLong(T_GROUP_ID);
+                String name = groupObj.getString(T_GROUP_NAME);
+                String description = groupObj.getString(T_GROUP_DESCRIPTION);
+
+                groups.add(new Group(id, null, name, description));
+            }
+            return groups;
+        }
+        return null;
+    }
+
+    public static JSONObject setDoneQuery(String userID, int taskID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_SET_DONE);
+        reqJson.put(T_USER_ID, userID);
+        reqJson.put(T_TASK_ID, taskID);
+        return reqJson;
+    }
+
+    public static boolean setDoneResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
+
+    public static JSONObject getGroupQuery(int groupID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_GROUP);
+        reqJson.put(T_GROUP_ID, groupID);
+        return reqJson;
+    }
+
+    public static Group getGroupResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            long id = resJson.getLong(T_GROUP_ID);
+            String name = resJson.getString(T_GROUP_NAME);
+            String description = resJson.getString(T_GROUP_DESCRIPTION);
+            Group group = new Group(id, null, name, description);
+            return group;
+        }
+        return null;
+    }
+
+    public static JSONObject getGroupTasksQuery(int groupID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_GROUP_TASKS);
+        reqJson.put(T_GROUP_ID, groupID);
+        return reqJson;
+    }
+
+    public static ArrayList<Task> getGroupTasksResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray taskArray = resJson.getJSONArray(T_TASKS);
+            ArrayList<Task> tasks = new ArrayList<>();
+            for(int i=0; i<taskArray.length();i++){
+                JSONObject taskObj = taskArray.getJSONObject(i);
+                long taskID = resJson.getLong(T_TASK_ID);
+                Date deadline = formatDate(resJson.getString(T_DEADLINE));
+                String taskContent = resJson.getString(T_TASK);
+                tasks.add(new Task(taskID, null, taskContent, deadline));
+            }
+            return tasks;
+        }
+        return null;
+    }
+
+    public static JSONObject getGroupMemberQuery(int groupID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_GROUP_MEMBERS);
+        reqJson.put(T_GROUP_ID, groupID);
+        return reqJson;
+    }
+
+    public static ArrayList<User> getGroupMemberResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray userArray = resJson.getJSONArray(T_USERS);
+            ArrayList<User> users = new ArrayList<>();
+            for(int i=0; i<userArray.length();i++){
+                JSONObject userObj = userArray.getJSONObject(i);
+                String id = userObj.getString(T_USER_ID);
+                String fName = userObj.getString(T_FIRST_NAME);
+                String grade = userObj.getString(T_GRADE);
+                String lName = userObj.getString(T_LAST_NAME);
+                String email = userObj.getString(T_EMAIL);
+                int role = userObj.getInt(T_ROLE);
+                users.add(new User(email,id, lName,fName,grade, role));
+            }
+            return users;
+        }
+        return null;
+    }
+
+
+    public static JSONObject addTaskQuery(int groupID, String nameTask, Date date) throws JSONException {
+        ArrayList<User> users = new ArrayList<>();
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_ADD_TASK);
+        reqJson.put(T_GROUP_ID, groupID);
+        reqJson.put(T_TASK, nameTask);
+        reqJson.put(T_DEADLINE, date);  //formatDate("2015-08-02 10:15:12")
+        JSONArray userArray = new JSONArray();
+        for(User u: users){
+            userArray.put(u.getId());
+        }
+        reqJson.put(T_USERS, userArray);
+        return reqJson;
+    }
+
+    public static boolean addTaskResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
 
     private static Date formatDate(String deadlineString) {
         try {
