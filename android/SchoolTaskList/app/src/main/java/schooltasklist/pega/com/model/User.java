@@ -10,6 +10,10 @@ public class User implements Serializable{
     private String email;
     private String id;
 
+    private String lastName;
+    private String firstName;
+    private String grade;
+
     public User(String n, String e, String id) { name = n; email = e; this.id = id;}
 
     public String getName() { return name; }
