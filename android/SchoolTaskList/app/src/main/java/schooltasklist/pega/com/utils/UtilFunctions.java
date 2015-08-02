@@ -8,6 +8,9 @@ import android.text.style.StyleSpan;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Tran on 8/1/2015.
  */
@@ -40,4 +43,22 @@ public class UtilFunctions {
     public void showToast(Context context, String message) {
       Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
      }
+
+    public static Date formatDate(String deadlineString) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy" +
+                    "" +
+                    "-MM-dd HH:mm:ss");
+            Date result = sdf.parse(deadlineString);
+            return result;
+        }catch (java.text.ParseException e) {
+        }
+        return null;
+    }
+
+    public static String formatDate(Date deadline) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String result = sdf.format(deadline);
+        return result;
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import schooltasklist.pega.com.config.DataCurrent;
 import schooltasklist.pega.com.fragment.FragmentGroup;
 import schooltasklist.pega.com.fragment.FragmentTask;
 import schooltasklist.pega.com.schooltasklist.R;
@@ -20,18 +21,25 @@ public class ActivityMain extends FragmentActivity {
     private ImageView iv_task;
     private ImageView iv_group;
     private TextView  tv_username;
-
     private boolean isTask =  true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         iv_setting = (ImageView) findViewById(R.id.iv_activitymain_setting);
         iv_add = (ImageView) findViewById(R.id.iv_activitymain_add);
         iv_task = (ImageView) findViewById(R.id.iv_activitymain_task);
         iv_group = (ImageView) findViewById(R.id.iv_activitymain_group);
         tv_username = (TextView) findViewById(R.id.tv_activitymain_title);
+        tv_username.setText(DataCurrent.user_current.getFirstName() + DataCurrent.user_current.getLastName());
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            FragmentTask fragment = new FragmentTask();
+            transaction.replace(R.id.fragment_main_content, fragment);
+            transaction.commit();
+        }
         if(isTask)
         {
 
@@ -44,12 +52,8 @@ public class ActivityMain extends FragmentActivity {
             iv_task.setImageResource(R.drawable.leftactive);
             iv_group.setImageResource(R.drawable.rightactive);
         }
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            FragmentTask fragment = new FragmentTask();
-            transaction.replace(R.id.fragment_main_content, fragment);
-            transaction.commit();
-        }
+
+
 
         iv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +80,6 @@ public class ActivityMain extends FragmentActivity {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentTask fragment = new FragmentTask();
                     transaction.replace(R.id.fragment_main_content, fragment);
-                    transaction.addToBackStack(null);
                     transaction.commit();
                     isTask = true;
                 }
@@ -94,7 +97,6 @@ public class ActivityMain extends FragmentActivity {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentGroup fragment = new FragmentGroup();
                     transaction.replace(R.id.fragment_main_content, fragment);
-                    transaction.addToBackStack(null);
                     transaction.commit();
                     isTask = false;
                 }
@@ -124,4 +126,6 @@ public class ActivityMain extends FragmentActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -1,12 +1,9 @@
 package schooltasklist.pega.com.connection;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Tran on 8/1/2015.

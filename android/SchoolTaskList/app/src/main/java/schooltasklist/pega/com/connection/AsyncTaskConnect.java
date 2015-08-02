@@ -36,7 +36,13 @@ public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
     }
 
     protected void onPostExecute(String feed) {
-        listener.onGetDataComplete(jsonResponse);
+        try {
+            listener.onGetDataComplete(jsonResponse);
+        } catch (JSONException e)
+        {
+
+        }
+
     }
 
 

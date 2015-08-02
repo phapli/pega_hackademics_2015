@@ -1,7 +1,5 @@
 package schooltasklist.pega.com.connection;
 
-import android.net.ParseException;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
