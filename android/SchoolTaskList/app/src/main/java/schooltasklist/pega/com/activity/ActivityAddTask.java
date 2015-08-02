@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,11 +25,21 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import schooltasklist.pega.com.config.Configs;
+import schooltasklist.pega.com.connection.IOnGetDataFromServerComplete;
+import schooltasklist.pega.com.connection.ManageConnection;
+import schooltasklist.pega.com.connection.MessageParse;
 import schooltasklist.pega.com.customview.ContactsCompletionView;
 import schooltasklist.pega.com.customview.customedittext.FilteredArrayAdapter;
+import schooltasklist.pega.com.model.Group;
 import schooltasklist.pega.com.model.User;
 import schooltasklist.pega.com.schooltasklist.R;
 import schooltasklist.pega.com.utils.UtilFunctions;
@@ -49,6 +61,15 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
     private LinearLayout llDate;
     private LinearLayout llTime;
 
+    private ArrayList<User> mUser;
+    ArrayAdapter<User> mAdapter;
+    private ImageView ivSubmit;
+
+    private Group mCurrentGroup;
+
+    private String mDate = "2015-08-02";
+    private String mTime = "00:00:00";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -56,45 +77,44 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+        initValueComponent();
         loadComponent();
         setEventForComponent();
-//        people = new User[]{
-//                new User("Marshall Weir", "marshall@example.com","1"),
-//                new User("Margaret Smith", "margaret@example.com","2"),
-//                new User("Max Jordan", "1max@example.com","3"),
-//                new User("Max Jordan1", "2max@example.com","4"),
-//                new User("Max Jordan2", "3max@example.com","5"),
-//                new User("Max Jordan3", "4max@example.com","6"),
-//                new User("Max Jordan4", "5max@example.com","7"),
-//                new User("Max Jordan5", "6max@example.com","8"),
-//                new User("Meg Peterson", "7meg@example.com","9"),
-//                new User("Amanda Johnson", "8amanda@example.com","10"),
-//                new User("Terry Anderson", "9terry@example.com","11")
-//        };
-
-        adapter = new FilteredArrayAdapter<User>(this, android.R.layout.simple_list_item_1, people) {
-            @Override
-            protected boolean keepObject(User obj, String mask) {
-//                mask = mask.toLowerCase();
-//                String[] ls = mask.split(",");
-//                String maskCurrent = ls [0];
-//                boolean blFirst =  obj.getName().toLowerCase().startsWith(mask) || obj.getEmail().toLowerCase().startsWith(mask);
-//                boolean blAnother = true;
-//                int i = 1;
-//                for ( i=1; i<ls.length; i++) {
-//                    String maskTemp = ls[i];
-//                    blAnother = blAnother || obj.getId().toLowerCase().equals(maskTemp.trim());
-//                }
-//                return blAnother;
-                return true;
-            }
-        };
-
-
-        cvCompletionView.setAdapter(adapter);
-
-
         updateComponent();
+    }
+
+    private void initValueComponent() {
+        //TODO edit hardcode here
+        long groupID = 1;
+        try {
+            getUserInGroupFromServer(groupID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getUserInGroupFromServer(long groupID) throws JSONException {
+        ManageConnection.getInstance().getGroupMemberFunction(new IOnGetDataFromServerComplete() {
+            @Override
+            public void onGetDataComplete(JSONObject jsonResponse) {
+                try {
+                    mUser = MessageParse.getGroupMemberResponse(jsonResponse);
+                    mAdapter = new FilteredArrayAdapter<User>(ActivityAddTask.this, android.R.layout.simple_list_item_1, mUser) {
+                        @Override
+                        protected boolean keepObject(User obj, String mask) {
+                            mask = mask.toLowerCase();
+                            return obj.getFirstName().toLowerCase().startsWith(mask) || obj.getLastName().toLowerCase().startsWith(mask)
+                                    || obj.getGrade().toLowerCase().equals(mask);
+                        }
+                    };
+                    cvCompletionView.setAdapter(mAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, groupID);
     }
 
     private void setEventForComponent() {
@@ -147,6 +167,31 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
                 cvCompletionView.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
             }
         });
+
+        ivSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    actionSubmit();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void actionSubmit() throws JSONException {
+        ManageConnection.getInstance().addTaskFunction(new IOnGetDataFromServerComplete() {
+            @Override
+            public void onGetDataComplete(JSONObject jsonResponse) {
+                try {
+                    MessageParse.addTaskResponse(jsonResponse);
+                    Log.d("TEST", "add OK");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1, etNameTask.getText().toString(),mDate+" "+mTime, cvCompletionView.getObjects());  //mGroupCurrent.getId()
     }
 
     private void showDateDialog() {
@@ -198,6 +243,8 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
         llDate = (LinearLayout) findViewById(R.id.ll_activity_addtask_dateholder);
         llTime = (LinearLayout) findViewById(R.id.ll_activity_addtask_timeholder);
         cvCompletionView = (ContactsCompletionView)findViewById(R.id.cv_activityaddtask_searchView);
+
+        ivSubmit = (ImageView) findViewById(R.id.iv_activityaddtask_submit);
     }
 
     @Override
@@ -209,7 +256,7 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
         tvYear.setText(UtilFunctions.applyBoldStyle("YEAR: ").append(String.valueOf(year)));
         tvMonth.setText(UtilFunctions.applyBoldStyle("MONTH: ").append(String.valueOf(monthOfYear)));
         tvDay.setText(UtilFunctions.applyBoldStyle("DAY: ").append(String.valueOf(dayOfMonth)));
-
+        mDate = year+"-"+monthOfYear+"-"+dayOfMonth;
     }
 
     @Override
@@ -220,6 +267,7 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
     private void updateTimeInfoView(int hourOfDay, int minute) {
         tvHour.setText(UtilFunctions.applyBoldStyle("HOUR: ").append(String.valueOf(hourOfDay)));
         tvMinute.setText(UtilFunctions.applyBoldStyle("MINUTE: ").append(String.valueOf(minute)));
+        mTime = hourOfDay+":"+minute+":"+"00";
     }
 
 
@@ -244,4 +292,19 @@ public class ActivityAddTask extends Activity implements DatePickerDialog.OnDate
 //
 //        return super.onOptionsItemSelected(item);
 //    }
+private Date formatDate(String deadlineString) {
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date result = sdf.parse(deadlineString);
+        return result;
+    }catch (java.text.ParseException e) {
+    }
+    return null;
+}
+
+    private String formatDate(Date deadline) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String result = sdf.format(deadline);
+        return result;
+    }
 }

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import schooltasklist.pega.com.model.Group;
 import schooltasklist.pega.com.model.Task;
@@ -301,7 +302,7 @@ public class MessageParse {
         return null;
     }
 
-    public static JSONObject setDoneQuery(String userID, int taskID) throws JSONException {
+    public static JSONObject setDoneQuery(String userID, long taskID) throws JSONException {
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_SET_DONE);
         reqJson.put(T_USER_ID, userID);
@@ -318,7 +319,7 @@ public class MessageParse {
         return false;
     }
 
-    public static JSONObject getGroupQuery(int groupID) throws JSONException {
+    public static JSONObject getGroupQuery(long groupID) throws JSONException {
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_GET_GROUP);
         reqJson.put(T_GROUP_ID, groupID);
@@ -338,7 +339,7 @@ public class MessageParse {
         return null;
     }
 
-    public static JSONObject getGroupTasksQuery(int groupID) throws JSONException {
+    public static JSONObject getGroupTasksQuery(long groupID) throws JSONException {
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_GET_GROUP_TASKS);
         reqJson.put(T_GROUP_ID, groupID);
@@ -363,7 +364,7 @@ public class MessageParse {
         return null;
     }
 
-    public static JSONObject getGroupMemberQuery(int groupID) throws JSONException {
+    public static JSONObject getGroupMemberQuery(long groupID) throws JSONException {
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_GET_GROUP_MEMBERS);
         reqJson.put(T_GROUP_ID, groupID);
@@ -392,8 +393,8 @@ public class MessageParse {
     }
 
 
-    public static JSONObject addTaskQuery(int groupID, String nameTask, Date date) throws JSONException {
-        ArrayList<User> users = new ArrayList<>();
+    public static JSONObject addTaskQuery(long groupID, String nameTask, String date, List<User> users) throws JSONException {
+
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_ADD_TASK);
         reqJson.put(T_GROUP_ID, groupID);
@@ -418,7 +419,7 @@ public class MessageParse {
 
 
 
-    public static JSONObject deleteTaskQuery(int taskID) throws JSONException {
+    public static JSONObject deleteTaskQuery(long taskID) throws JSONException {
         ArrayList<User> users = new ArrayList<>();
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_DELETE_TASK);
@@ -436,13 +437,13 @@ public class MessageParse {
     }
 
 
-    public static JSONObject queryUserQuery(int taskID) throws JSONException {
+    public static JSONObject queryUserQuery(long taskID) throws JSONException {
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_QUERY_USER);
         return reqJson;
     }
 
-    public static ArrayList<User> queryUserResponse(JSONObject resJson) throws JSONException {
+    public static ArrayList<User> queryUserResponse(JSONObject resJson) throws JSONException, Exception {
         int code = resJson.getInt(T_CODE);
         String mess = resJson.getString(T_MESSAGE);
         if(code==C_SUCCESS){
@@ -482,7 +483,7 @@ public class MessageParse {
         return false;
     }
 
-    public static JSONObject deleteMemberQuery(int groupID) throws JSONException {
+    public static JSONObject deleteMemberQuery(long groupID) throws JSONException {
         ArrayList<User> users = new ArrayList<>();
         JSONObject reqJson = new JSONObject();
         reqJson.put(T_FUNCTION,F_DELETE_MEMBER);
@@ -504,6 +505,28 @@ public class MessageParse {
         return false;
     }
 
+
+    public static JSONObject addMemberQuery(long groupID, List<User> users) throws JSONException {
+
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_ADD_MEMBER);
+        reqJson.put(T_GROUP_ID, groupID);
+        JSONArray userArray = new JSONArray();
+        for(User u: users){
+            userArray.put(u.getId());
+        }
+        reqJson.put(T_USERS, userArray);
+        return reqJson;
+    }
+
+    public static boolean addMemberResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            return true;
+        }
+        return false;
+    }
     private static Date formatDate(String deadlineString) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

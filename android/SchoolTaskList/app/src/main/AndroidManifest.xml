@@ -24,17 +24,10 @@
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityLogin"
             android:label="@string/app_name" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityMain"
             android:label="@string/title_activity_activity_main" >
-
         </activity>
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityGroup"
@@ -72,8 +65,23 @@
 
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityAddTask"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_activity_add_task" >
+            android:label="@string/title_activity_activity_add_task"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivityCreateGroup"
+            android:label="@string/title_activity_activity_create_group" >
+
+        </activity>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivityAddMember"
+            android:label="@string/title_activity_activity_add_member" >
+
 
         </activity>
     </application>

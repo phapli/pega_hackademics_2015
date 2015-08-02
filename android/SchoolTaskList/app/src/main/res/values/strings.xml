@@ -8,7 +8,11 @@
     <string name="title_activity_activity_add_task">Add Task</string>
     <string name="hint_add_member">Add member ...</string>
     <string name="hint_add_name_task">Task name ...</string>
+    <string name="hint_add_name_group">Group name ...</string>
     <string name="title_activity_activity_seting">ActivitySeting</string>
+    <string name="title_activity_activity_create_group">ActivityCreateGroup</string>
+    <string name="title_activity_activity_add_member">ActivityAddMember</string>
+    <string name="hint_add_des_group">Description ...</string>
 
 
 </resources>
