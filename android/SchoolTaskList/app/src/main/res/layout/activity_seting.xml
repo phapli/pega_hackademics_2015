@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="schooltasklist.pega.com.activity.ActivitySeting"
-    android:layout_marginTop="200px" >
+    android:paddingTop="200px" >
 
     <TextView
         android:text="Setting"
