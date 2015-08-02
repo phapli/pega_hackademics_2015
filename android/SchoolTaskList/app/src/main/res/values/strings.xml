@@ -8,4 +8,7 @@
     <string name="title_activity_activity_add_task">Add Task</string>
     <string name="hint_add_member">Add member ...</string>
     <string name="hint_add_name_task">Task name ...</string>
+    <string name="title_activity_activity_seting">ActivitySeting</string>
+
+
 </resources>

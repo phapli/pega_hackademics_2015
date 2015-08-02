@@ -24,12 +24,11 @@
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityLogin"
             android:label="@string/app_name" >
-
         </activity>
-
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityMain"
             android:label="@string/title_activity_activity_main" >
+
         </activity>
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityGroup"
@@ -67,8 +66,11 @@
 
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityAddTask"
-
             android:label="@string/title_activity_activity_add_task" >
+        </activity>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivitySeting"
+            android:label="@string/title_activity_activity_seting" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
