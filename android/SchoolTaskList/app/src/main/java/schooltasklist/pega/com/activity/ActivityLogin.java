@@ -1,23 +1,23 @@
 package schooltasklist.pega.com.activity;
 
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import schooltasklist.pega.com.connection.ConnectServer;
+import schooltasklist.pega.com.config.DataCurrent;
 import schooltasklist.pega.com.connection.IOnGetDataFromServerComplete;
 import schooltasklist.pega.com.connection.ManageConnection;
 import schooltasklist.pega.com.connection.MessageParse;
@@ -26,7 +26,7 @@ import schooltasklist.pega.com.model.User;
 import schooltasklist.pega.com.schooltasklist.R;
 
 
-public class ActivityLogin extends ActionBarActivity {
+public class ActivityLogin extends Activity {
     private EditText et_username;
     private EditText et_password;
     private TextView tv_login;
@@ -35,6 +35,9 @@ public class ActivityLogin extends ActionBarActivity {
     private User mUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -79,10 +82,9 @@ public class ActivityLogin extends ActionBarActivity {
                 //processReceiDataServerCom(jsonResponse);
                 try {
                     ArrayList<Task> tasks = MessageParse.getAllTaskResponse(jsonResponse);
-                    if (tasks!= null) {
+                    if (tasks != null) {
                         Log.d("TEST", "successful!");
-                    }
-                    else {
+                    } else {
                         Log.d("TEST", "unsuccessful!");
                     }
                 } catch (JSONException e) {
@@ -120,12 +122,19 @@ public class ActivityLogin extends ActionBarActivity {
     }
 
     private void actionLoginSuccess() {
-        Log.d("TEST", "login successful!");
+        Intent intent  = new Intent(ActivityLogin.this, ActivityMain.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+        DataCurrent.user_current = mUser;
+        startActivity(intent);
+        finish();
     }
 
     private void loadComponent() {
         et_username = (EditText) findViewById(R.id.et_activitylogin_username);
         et_password = (EditText) findViewById(R.id.et_activitylogin_password);
+
+        et_username.setText("ST0000001");
+        et_password.setText("123456");
 
         tv_login = (TextView) findViewById(R.id.tv_activitylogin_login);
         tv_forgot = (TextView) findViewById(R.id.tv_activitylogin_forgot);
@@ -153,6 +162,7 @@ public class ActivityLogin extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

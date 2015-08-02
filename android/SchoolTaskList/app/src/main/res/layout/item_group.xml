@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="350px"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_width="320px"
+    android:layout_height="320px"
+    android:background="@drawable/oval_grid"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_itemgroup_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Class 1"
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:gravity="center"
+        android:text="English Club"
         android:textSize="25sp"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"
         android:layout_marginTop="20px"
         android:textColor="@color/black"/>
-    <TextView
-        android:layout_marginTop="10px"
-        android:id="@+id/tv_itemgroup_datecreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Created 20/20/2020"
-        android:textSize="12sp"
-        />
+
     <View
-        android:layout_marginTop="10px"
+        android:layout_marginTop="30px"
         android:layout_width="300px"
         android:layout_height="3px"
         android:background="@color/hint_color"/>

@@ -282,7 +282,7 @@ public class Query extends HttpServlet {
                     userObj.put(T_FIRST_NAME, user.getFirstName());
                     userObj.put(T_GRADE, user.getGrade());
                     userObj.put(T_LAST_NAME, user.getLastName());
-                    resJson.put(T_EMAIL, user.getEmail());
+                    userObj.put(T_EMAIL, user.getEmail());
                     userObj.put(T_ROLE, user.getRole().getId());
                     userArray.put(userObj);
                 }
@@ -405,7 +405,7 @@ public class Query extends HttpServlet {
                     userObj.put(T_FIRST_NAME, gu.getUser().getFirstName());
                     userObj.put(T_GRADE, gu.getUser().getGrade());
                     userObj.put(T_LAST_NAME, gu.getUser().getLastName());
-                    resJson.put(T_EMAIL, gu.getUser().getEmail());
+                    userObj.put(T_EMAIL, gu.getUser().getEmail());
                     userObj.put(T_ROLE, gu.getUser().getRole().getId());
                     userArray.put(userObj);
                 }
@@ -509,7 +509,7 @@ public class Query extends HttpServlet {
                     userObj.put(T_FIRST_NAME, user.getFirstName());
                     userObj.put(T_GRADE, user.getGrade());
                     userObj.put(T_LAST_NAME, user.getLastName());
-                    resJson.put(T_EMAIL, user.getEmail());
+                    userObj.put(T_EMAIL, user.getEmail());
                     userObj.put(T_ROLE, user.getRole().getId());
                     userArray.put(userObj);
                 }

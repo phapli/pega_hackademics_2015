@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <GridView
         android:id="@+id/gv_fragmentgroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10px"
         android:numColumns="2"/>
 
  </LinearLayout>

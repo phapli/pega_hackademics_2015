@@ -1,5 +1,6 @@
 package schooltasklist.pega.com.connection;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -7,6 +8,6 @@ import org.json.JSONObject;
  */
 public interface IOnGetDataFromServerComplete {
 
-    void onGetDataComplete(JSONObject jsonResponse);
+    void onGetDataComplete(JSONObject jsonResponse) throws JSONException;
 
 }
