@@ -9,7 +9,7 @@
         android:layout_margin="40px"
         android:layout_width="40px"
         android:layout_height="40px"
-        android:src="@drawable/settingdeactive"/>
+        android:src="@drawable/iv_setting"/>
     <TextView
         android:id="@+id/tv_activitygroup_title"
         android:layout_width="wrap_content"

@@ -31,26 +31,25 @@ public class ActivityGroup extends FragmentActivity {
         iv_task = (ImageView) findViewById(R.id.iv_activitygroup_task);
         iv_member = (ImageView) findViewById(R.id.iv_activitygroup_member);
         tv_groupname = (TextView) findViewById(R.id.tv_activitygroup_title);
-        if(isTask)
-        {
-
+        if(isTask) {
             iv_task.setImageResource(R.drawable.leftdeactive);
-            iv_member.setImageResource(R.drawable.memberrightdeactive);
+            iv_member.setImageResource(R.drawable.memberrightactive);
+        } else {
             iv_task.setImageResource(R.drawable.leftactive);
+            iv_member.setImageResource(R.drawable.memberrightdeactive);
+        }
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            FragmentTask fragment = new FragmentTask();
+            transaction.replace(R.id.fragment_group_content, fragment);
+            transaction.commit();
+        }
         iv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        iv_member.setImageResource(R.drawable.memberrightactive);
-    }
-    if (savedInstanceState == null) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FragmentTask fragment = new FragmentTask();
-        transaction.replace(R.id.fragment_main_content, fragment);
-        transaction.commit();
-    }
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +65,7 @@ public class ActivityGroup extends FragmentActivity {
                 else
                 {
                     iv_task.setImageResource(R.drawable.leftdeactive);
-                    iv_member.setImageResource(R.drawable.memberrightdeactive);
+                    iv_member.setImageResource(R.drawable.memberrightactive);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentTask fragment = new FragmentTask();
                     transaction.replace(R.id.fragment_group_content, fragment);
@@ -84,7 +83,7 @@ public class ActivityGroup extends FragmentActivity {
                 else
                 {
                     iv_task.setImageResource(R.drawable.leftactive);
-                    iv_member.setImageResource(R.drawable.memberrightactive);
+                    iv_member.setImageResource(R.drawable.memberrightdeactive);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     FragmentGroup fragment = new FragmentGroup();
                     transaction.replace(R.id.fragment_group_content, fragment);
