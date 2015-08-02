@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import schooltasklist.pega.com.fragment.FragmentGroup;
+import schooltasklist.pega.com.config.DataCurrent;
+import schooltasklist.pega.com.fragment.FragmentMember;
 import schooltasklist.pega.com.fragment.FragmentTask;
 import schooltasklist.pega.com.schooltasklist.R;
 
@@ -26,11 +27,13 @@ public class ActivityGroup extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
         iv_setting = (ImageView) findViewById(R.id.iv_activitygroup_setting);
         iv_add = (ImageView) findViewById(R.id.iv_activitygroup_add);
         iv_task = (ImageView) findViewById(R.id.iv_activitygroup_task);
         iv_member = (ImageView) findViewById(R.id.iv_activitygroup_member);
         tv_groupname = (TextView) findViewById(R.id.tv_activitygroup_title);
+        tv_groupname.setText(DataCurrent.group_current.getName());
         if(isTask) {
             iv_task.setImageResource(R.drawable.leftdeactive);
             iv_member.setImageResource(R.drawable.memberrightactive);
@@ -87,7 +90,7 @@ public class ActivityGroup extends FragmentActivity {
                     iv_task.setImageResource(R.drawable.leftactive);
                     iv_member.setImageResource(R.drawable.memberrightdeactive);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    FragmentGroup fragment = new FragmentGroup();
+                    FragmentMember fragment = new FragmentMember();
                     transaction.replace(R.id.fragment_group_content, fragment);
                     transaction.addToBackStack(null);
                     transaction.commit();

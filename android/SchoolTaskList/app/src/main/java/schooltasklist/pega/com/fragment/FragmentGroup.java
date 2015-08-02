@@ -51,19 +51,17 @@ public class FragmentGroup extends Fragment{
         grid = (GridView) view.findViewById(R.id.gv_fragmentgroup);
 
 
-        grid.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ActivityGroup.class);
-                intent.putExtra("ID_GROUP",DataCurrent.list_group.get(position).getId());
+                DataCurrent.group_current = DataCurrent.list_group.get(position);
+                Log.d("aaaaaaaaaaaaaaaaaaaaaa",DataCurrent.list_group.get(position).getId()+"");
                 startActivity(new Intent(getActivity(), ActivityGroup.class));
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
+
+
     }
 
     private void actiongetGroup() throws JSONException {
