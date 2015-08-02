@@ -1,5 +1,5 @@
 package com.pega.schooltasklist.database.object;
-// Generated Aug 2, 2015 1:47:15 AM by Hibernate Tools 4.3.1
+// Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -24,7 +24,7 @@ public class User  implements java.io.Serializable {
      private Set taskusers = new HashSet(0);
      private Set groupusers = new HashSet(0);
      private Set users = new HashSet(0);
-     private Set groups = new HashSet(0);
+     private Set schoolgroups = new HashSet(0);
 
     public User() {
     }
@@ -34,7 +34,7 @@ public class User  implements java.io.Serializable {
         this.id = id;
         this.role = role;
     }
-    public User(String id, Role role, User user, String lastName, String firstName, String grade, Boolean active, Date createDate, String password, Set taskusers, Set groupusers, Set users, Set groups) {
+    public User(String id, Role role, User user, String lastName, String firstName, String grade, Boolean active, Date createDate, String password, Set taskusers, Set groupusers, Set users, Set schoolgroups) {
        this.id = id;
        this.role = role;
        this.user = user;
@@ -47,7 +47,7 @@ public class User  implements java.io.Serializable {
        this.taskusers = taskusers;
        this.groupusers = groupusers;
        this.users = users;
-       this.groups = groups;
+       this.schoolgroups = schoolgroups;
     }
    
     public String getId() {
@@ -134,12 +134,12 @@ public class User  implements java.io.Serializable {
     public void setUsers(Set users) {
         this.users = users;
     }
-    public Set getGroups() {
-        return this.groups;
+    public Set getSchoolgroups() {
+        return this.schoolgroups;
     }
     
-    public void setGroups(Set groups) {
-        this.groups = groups;
+    public void setSchoolgroups(Set schoolgroups) {
+        this.schoolgroups = schoolgroups;
     }
 
 

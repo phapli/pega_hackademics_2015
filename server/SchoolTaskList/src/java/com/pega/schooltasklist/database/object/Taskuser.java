@@ -1,5 +1,5 @@
 package com.pega.schooltasklist.database.object;
-// Generated Aug 2, 2015 1:47:15 AM by Hibernate Tools 4.3.1
+// Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
 public class Taskuser  implements java.io.Serializable {
 
 
-     private long id;
+     private Long id;
      private Task task;
      private User user;
      private Date createDate;
@@ -21,13 +21,11 @@ public class Taskuser  implements java.io.Serializable {
     }
 
 	
-    public Taskuser(long id, Task task, User user) {
-        this.id = id;
+    public Taskuser(Task task, User user) {
         this.task = task;
         this.user = user;
     }
-    public Taskuser(long id, Task task, User user, Date createDate, Boolean active, Boolean done) {
-       this.id = id;
+    public Taskuser(Task task, User user, Date createDate, Boolean active, Boolean done) {
        this.task = task;
        this.user = user;
        this.createDate = createDate;
@@ -35,11 +33,11 @@ public class Taskuser  implements java.io.Serializable {
        this.done = done;
     }
    
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public Task getTask() {
