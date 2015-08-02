@@ -1,5 +1,6 @@
 package schooltasklist.pega.com.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -45,12 +46,13 @@ public class ActivityMain extends FragmentActivity {
 
             iv_task.setImageResource(R.drawable.leftdeactive);
             iv_group.setImageResource(R.drawable.rightdeactive);
-
+            //iv_add.setVisibility(View.INVISIBLE);
         }
         else
         {
             iv_task.setImageResource(R.drawable.leftactive);
             iv_group.setImageResource(R.drawable.rightactive);
+            //iv_add.setVisibility(View.VISIBLE);
         }
 
 
@@ -58,13 +60,16 @@ public class ActivityMain extends FragmentActivity {
         iv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent  = new Intent(ActivityMain.this, ActivitySeting.class);
+                startActivity(intent);
+                //finish();
             }
         });
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent  = new Intent(ActivityMain.this, ActivityCreateGroup.class);
+                startActivity(intent);
             }
         });
 
@@ -72,7 +77,9 @@ public class ActivityMain extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if(isTask)
-                {}
+                {
+                    iv_add.setVisibility(View.INVISIBLE);
+                }
                 else
                 {
                     iv_task.setImageResource(R.drawable.leftdeactive);
@@ -89,7 +96,9 @@ public class ActivityMain extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if(!isTask)
-                {}
+                {
+                    iv_add.setVisibility(View.VISIBLE);
+                }
                 else
                 {
                     iv_task.setImageResource(R.drawable.leftactive);

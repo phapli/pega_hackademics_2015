@@ -34,9 +34,11 @@ public class ActivityGroup extends FragmentActivity {
         if(isTask) {
             iv_task.setImageResource(R.drawable.leftdeactive);
             iv_member.setImageResource(R.drawable.memberrightactive);
+
         } else {
             iv_task.setImageResource(R.drawable.leftactive);
             iv_member.setImageResource(R.drawable.memberrightdeactive);
+
         }
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import schooltasklist.pega.com.config.DataCurrent;
 import schooltasklist.pega.com.connection.IOnGetDataFromServerComplete;
 import schooltasklist.pega.com.connection.ManageConnection;
 import schooltasklist.pega.com.connection.MessageParse;
@@ -49,7 +50,7 @@ public class ActivityCreateGroup extends Activity {
     }
 
     private void initValueComponent() {
-
+        mUser = DataCurrent.user_current;
 
 
     }
@@ -123,13 +124,14 @@ public class ActivityCreateGroup extends Activity {
             @Override
             public void onGetDataComplete(JSONObject jsonResponse) {
                 try {
-                    MessageParse.addMemberResponse(jsonResponse);
+                    MessageParse.createGroupResponse(jsonResponse);
                     Log.d("TEST", "add OK");
+                    ActivityCreateGroup.this.finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        }, etNameGroup.getText().toString(), etDesGroup.getText().toString(), "ST0000001");  //mGroupCurrent.getId()
+        }, etNameGroup.getText().toString(), etDesGroup.getText().toString(), mUser.getId());  //mGroupCurrent.getId()
     }
 
     private void loadComponent() {

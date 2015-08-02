@@ -25,6 +25,11 @@
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityLogin"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityMain"
@@ -35,44 +40,15 @@
             android:label="@string/title_activity_activity_group" >
         </activity>
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.example.gcm" />
-            </intent-filter>
-        </receiver>
 
-        <service
-            android:name="schooltasklist.pega.com.googlecloudmessage.MyGcmListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="schooltasklist.pega.com.googlecloudmessage.MyInstanceIDListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
+
 
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityAddTask"
             android:label="@string/title_activity_activity_add_task"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="schooltasklist.pega.com.activity.ActivityCreateGroup"
@@ -86,15 +62,21 @@
 
         </activity>
 
-        <receiver android:name=".SampleAlarmReceiver"></receiver>
+        <activity
+            android:name="schooltasklist.pega.com.activity.ActivitySeting"
+            android:label="SETTING" >
 
-        <receiver android:name=".SampleBootReceiver"
+        </activity>
+
+        <receiver android:name="schooltasklist.pega.com.scheduler.SampleAlarmReceiver"></receiver>
+
+        <receiver android:name="schooltasklist.pega.com.scheduler.SampleBootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-        <service android:name=".SampleSchedulingService" />
+        <service android:name="schooltasklist.pega.com.scheduler.SampleSchedulingService" />
     </application>
 
 </manifest>
