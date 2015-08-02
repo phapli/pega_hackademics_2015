@@ -210,15 +210,45 @@ public class MessageParse {
     public static JSONObject loginQueyParam(String username, String pass) throws JSONException {
         JSONObject paramJson = new JSONObject();
         paramJson.put(T_FUNCTION,F_LOGIN);
-        paramJson.put(T_USER_ID, "ST0000001");
-        paramJson.put(T_PASSWORD, "123456");
+        paramJson.put(T_USER_ID, username);
+        paramJson.put(T_PASSWORD, pass);
         return paramJson;
+    }
+
+    public static JSONObject getAllTaskQuery(String userID) throws JSONException {
+        JSONObject reqJson = new JSONObject();
+        reqJson.put(T_FUNCTION,F_GET_ALL_TASK);
+        //TODO edit set variable here
+        reqJson.put(T_USER_ID, userID);
+        return reqJson;
+    }
+
+    public static ArrayList<Task> getAllTaskResponse(JSONObject resJson) throws JSONException {
+        int code = resJson.getInt(T_CODE);
+        String mess = resJson.getString(T_MESSAGE);
+        if(code==C_SUCCESS){
+            JSONArray taskArray = resJson.getJSONArray(T_TASKS);
+            ArrayList<Task> tasks = new ArrayList<>();
+            for(int i=0; i<taskArray.length();i++){
+                JSONObject taskObj = taskArray.getJSONObject(i);
+                long taskID = taskObj.getLong(T_TASK_ID);
+                Date deadline = formatDate(taskObj.getString(T_DEADLINE));
+                long groupID = taskObj.getLong(T_GROUP_ID);
+                String groupName = taskObj.getString(T_GROUP_NAME);
+                String taskContent = taskObj.getString(T_TASK);
+                tasks.add(new Task(taskID, new Group(groupID, null, groupName, null), taskContent, deadline));
+            }
+            return tasks;
+        }
+        else {
+            return null;
+        }
     }
 
 
     private static Date formatDate(String deadlineString) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date result = sdf.parse(deadlineString);
             return result;
         }catch (java.text.ParseException e) {

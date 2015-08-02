@@ -21,6 +21,7 @@ import schooltasklist.pega.com.connection.ConnectServer;
 import schooltasklist.pega.com.connection.IOnGetDataFromServerComplete;
 import schooltasklist.pega.com.connection.ManageConnection;
 import schooltasklist.pega.com.connection.MessageParse;
+import schooltasklist.pega.com.model.Task;
 import schooltasklist.pega.com.model.User;
 import schooltasklist.pega.com.schooltasklist.R;
 
@@ -61,12 +62,38 @@ public class ActivityLogin extends ActionBarActivity {
             public void onClick(View v) {
                 try {
                     actionLogin();
+                    //testFunction();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
+
+    private void testFunction() throws JSONException {
+        //test getAllTask Function
+        String id = "ST0000001";
+        ManageConnection.getInstance().getAllTaskFunction(new IOnGetDataFromServerComplete() {
+            @Override
+            public void onGetDataComplete(JSONObject jsonResponse) {
+                //processReceiDataServerCom(jsonResponse);
+                try {
+                    ArrayList<Task> tasks = MessageParse.getAllTaskResponse(jsonResponse);
+                    if (tasks!= null) {
+                        Log.d("TEST", "uccessful!");
+                    }
+                    else {
+                        Log.d("TEST", "unsuccessful!");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, id);
+    }
+
+
+
 
     private void actionLogin() throws JSONException {
         ManageConnection.getInstance().loginFunction(new IOnGetDataFromServerComplete() {
@@ -126,6 +153,8 @@ public class ActivityLogin extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 

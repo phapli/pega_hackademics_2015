@@ -43,8 +43,6 @@ public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
 
     public JSONObject connectionToServer() throws JSONException {
         ConnectServer con = new ConnectServer();
-        final JSONObject jsonObject= new JSONObject();
-        jsonObject.put("Function",1);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new NameValuePair() {
             @Override
@@ -54,7 +52,7 @@ public class AsyncTaskConnect extends AsyncTask<String, Void, String> {
 
             @Override
             public String getValue() {
-                return jsonObject.toString();
+                return jsonQuery.toString();
             }
         });
         return con.makeHttpRequest(Configs.LINK_WS,Configs.METHOD_GET,params);

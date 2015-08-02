@@ -34,4 +34,9 @@ public class ManageConnection {
         new AsyncTaskConnect(listener, jsonQuery).execute();
     }
 
+    public void getAllTaskFunction(IOnGetDataFromServerComplete listener, String id) throws JSONException {
+        JSONObject jsonQuery = MessageParse.getAllTaskQuery(id);
+        new AsyncTaskConnect(listener, jsonQuery).execute();
+    }
+
 }
