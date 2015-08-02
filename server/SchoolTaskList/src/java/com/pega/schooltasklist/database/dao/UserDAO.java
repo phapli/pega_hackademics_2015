@@ -40,14 +40,14 @@ public class UserDAO {
 
     @SuppressWarnings("unchecked")
     public User login(String ID, String pass) {
-
+        ID = ID.toLowerCase();
         Session session = openSession();
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class)
-                    .add(Restrictions.eq("id", ID))
+                    .add(Restrictions.eq("id", ID).ignoreCase())
                     .add(Restrictions.eq("password", pass))
                     .add(Restrictions.eq("active", true));
 
