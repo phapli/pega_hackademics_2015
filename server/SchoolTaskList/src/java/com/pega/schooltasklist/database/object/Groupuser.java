@@ -1,5 +1,5 @@
 package com.pega.schooltasklist.database.object;
-// Generated Aug 2, 2015 1:47:15 AM by Hibernate Tools 4.3.1
+// Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,7 +11,7 @@ public class Groupuser  implements java.io.Serializable {
 
 
      private Long id;
-     private Group group;
+     private Schoolgroup schoolgroup;
      private User user;
      private Boolean active;
      private Date createDate;
@@ -20,12 +20,12 @@ public class Groupuser  implements java.io.Serializable {
     }
 
 	
-    public Groupuser(Group group, User user) {
-        this.group = group;
+    public Groupuser(Schoolgroup schoolgroup, User user) {
+        this.schoolgroup = schoolgroup;
         this.user = user;
     }
-    public Groupuser(Group group, User user, Boolean active, Date createDate) {
-       this.group = group;
+    public Groupuser(Schoolgroup schoolgroup, User user, Boolean active, Date createDate) {
+       this.schoolgroup = schoolgroup;
        this.user = user;
        this.active = active;
        this.createDate = createDate;
@@ -38,12 +38,12 @@ public class Groupuser  implements java.io.Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Group getGroup() {
-        return this.group;
+    public Schoolgroup getSchoolgroup() {
+        return this.schoolgroup;
     }
     
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setSchoolgroup(Schoolgroup schoolgroup) {
+        this.schoolgroup = schoolgroup;
     }
     public User getUser() {
         return this.user;

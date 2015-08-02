@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 2, 2015 1:47:15 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.pega.schooltasklist.database.object.Groupuser" table="groupuser" catalog="schooltasklist" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="group" class="com.pega.schooltasklist.database.object.Group" fetch="select">
-            <column name="Group" not-null="true" />
+        <many-to-one name="schoolgroup" class="com.pega.schooltasklist.database.object.Schoolgroup" fetch="select">
+            <column name="GroupID" not-null="true" />
         </many-to-one>
         <many-to-one name="user" class="com.pega.schooltasklist.database.object.User" fetch="select">
             <column name="User" length="10" not-null="true" />

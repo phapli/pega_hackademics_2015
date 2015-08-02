@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_add_member"
         android:layout_below="@+id/et_activityaddtask_nametask"
+        android:background="@drawable/cv_background_edittext"
         android:layout_marginTop="20dp"
         />
 
@@ -80,7 +81,7 @@
             android:text="date" />
 
         <LinearLayout
-            android:id="@+id/llDateHolder"
+            android:id="@+id/ll_activity_addtask_dateholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDateLabel"
@@ -118,7 +119,7 @@
             android:id="@+id/tvTimeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/llDateHolder"
+            android:layout_below="@id/ll_activity_addtask_dateholder"
 
             android:layout_marginTop="10dp"
             android:textSize="15sp"
@@ -128,7 +129,7 @@
             android:text="time" />
 
         <LinearLayout
-            android:id="@+id/llTimeHolder"
+            android:id="@+id/ll_activity_addtask_timeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

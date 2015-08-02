@@ -85,7 +85,7 @@ public class GroupUserDAO {
             transaction.commit();
             if (groupusers.size() > 0) {
                 for (Groupuser g : groupusers) {
-                    Hibernate.initialize(g.getGroup());
+                    Hibernate.initialize(g.getSchoolgroup());
                 }
                 return groupusers;
             }

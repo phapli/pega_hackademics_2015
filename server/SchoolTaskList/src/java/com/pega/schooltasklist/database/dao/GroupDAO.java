@@ -1,6 +1,6 @@
 package com.pega.schooltasklist.database.dao;
 
-import com.pega.schooltasklist.database.object.Group;
+import com.pega.schooltasklist.database.object.Schoolgroup;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -39,18 +39,18 @@ public class GroupDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public Group getGroup(long ID) {
+    public Schoolgroup getGroup(long ID) {
 
         Session session = openSession();
 
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Group.class)
+            Criteria criteria = session.createCriteria(Schoolgroup.class)
                     .add(Restrictions.eq("id", ID))
                     .add(Restrictions.eq("active", true));
 
-            List<Group> groups = criteria.list();
+            List<Schoolgroup> groups = criteria.list();
             transaction.commit();
             if (groups.size() > 0) {
                 return groups.get(0);
@@ -66,7 +66,7 @@ public class GroupDAO {
         return null;
     }
 
-    public long save(Group group) {
+    public long save(Schoolgroup group) {
 
         Session session = openSession();
 
@@ -89,7 +89,7 @@ public class GroupDAO {
 
     }
 
-    public void update(Group group) {
+    public void update(Schoolgroup group) {
 
         Session session = openSession();
         Transaction transaction = null;

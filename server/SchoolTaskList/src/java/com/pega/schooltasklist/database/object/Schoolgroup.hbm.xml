@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 2, 2015 1:47:15 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.pega.schooltasklist.database.object.Group" table="group" catalog="schooltasklist" optimistic-lock="version">
+    <class name="com.pega.schooltasklist.database.object.Schoolgroup" table="schoolgroup" catalog="schooltasklist" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
             <column name="ID" />
             <generator class="identity" />
@@ -25,13 +25,13 @@
         </property>
         <set name="tasks" table="task" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Group" />
+                <column name="GroupID" />
             </key>
             <one-to-many class="com.pega.schooltasklist.database.object.Task" />
         </set>
         <set name="groupusers" table="groupuser" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Group" not-null="true" />
+                <column name="GroupID" not-null="true" />
             </key>
             <one-to-many class="com.pega.schooltasklist.database.object.Groupuser" />
         </set>

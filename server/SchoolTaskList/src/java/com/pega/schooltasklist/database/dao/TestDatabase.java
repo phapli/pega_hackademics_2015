@@ -5,7 +5,10 @@
  */
 package com.pega.schooltasklist.database.dao;
 
+import com.pega.schooltasklist.database.object.Schoolgroup;
+import com.pega.schooltasklist.database.object.Task;
 import com.pega.schooltasklist.database.object.User;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,11 +17,11 @@ import java.util.List;
  */
 public class TestDatabase {
     public static void main(String[] args) {
-        User user = UserDAO.getInstance().login("ST0000001", "123456");
-        System.out.println(user.getFirstName());
-        List<User> a = UserDAO.getInstance().getAllChild("PA0000001");
-        for(User u: a){
-            System.out.println(u.getFirstName());
-        }
+        
+        //Schoolgroup group = GroupDAO.getInstance().getGroup(1);
+        //Task task = new Task(group, "5242", new Date(), new Date(), true, null);
+        //TaskDAO.getInstance().save(task);
+        Task task = TaskDAO.getInstance().getTask(11);
+        TaskDAO.getInstance().delete(task);
     }
 }

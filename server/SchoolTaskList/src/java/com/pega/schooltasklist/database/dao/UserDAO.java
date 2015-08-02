@@ -66,6 +66,34 @@ public class UserDAO {
         }
         return null;
     }
+    
+    @SuppressWarnings("unchecked")
+    public User getUser(String ID) {
+
+        Session session = openSession();
+
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class)
+                    .add(Restrictions.eq("id", ID))
+                    .add(Restrictions.eq("active", true));
+
+            List<User> users = criteria.list();
+            transaction.commit();
+            if (users.size() > 0) {
+                return users.get(0);
+            }
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOGGER.error("", e);
+        } finally {
+            closeSession(session);
+        }
+        return null;
+    }
 
     @SuppressWarnings("unchecked")
     public List<User> getAllChild(String ID) {

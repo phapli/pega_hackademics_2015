@@ -10,13 +10,16 @@ import com.pega.schooltasklist.database.dao.GroupUserDAO;
 import com.pega.schooltasklist.database.dao.TaskDAO;
 import com.pega.schooltasklist.database.dao.TaskUserDAO;
 import com.pega.schooltasklist.database.dao.UserDAO;
-import com.pega.schooltasklist.database.object.Group;
 import com.pega.schooltasklist.database.object.Groupuser;
+import com.pega.schooltasklist.database.object.Schoolgroup;
 import com.pega.schooltasklist.database.object.Task;
 import com.pega.schooltasklist.database.object.Taskuser;
 import com.pega.schooltasklist.database.object.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -24,6 +27,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.GroupLayout.Group;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -246,8 +250,8 @@ public class Query extends HttpServlet {
                     JSONObject task = new JSONObject();
                     task.put(T_TASK_ID, taskuser.getTask().getId());
                     task.put(T_DEADLINE, taskuser.getTask().getDeadline());
-                    task.put(T_GROUP_ID, taskuser.getTask().getGroup().getId());
-                    task.put(T_GROUP_NAME, taskuser.getTask().getGroup().getName());
+                    task.put(T_GROUP_ID, taskuser.getTask().getSchoolgroup().getId());
+                    task.put(T_GROUP_NAME, taskuser.getTask().getSchoolgroup().getName());
                     task.put(T_TASK, taskuser.getTask().getTaskContent());
                     taskArray.put(task);
                 }
@@ -298,9 +302,9 @@ public class Query extends HttpServlet {
             if (groupusers != null) {
                 for (Groupuser gu : groupusers) {
                     JSONObject groupObj = new JSONObject();
-                    groupObj.put(T_GROUP_ID, gu.getGroup().getId());
-                    groupObj.put(T_GROUP_NAME, gu.getGroup().getName());
-                    groupObj.put(T_GROUP_DESCRIPTION, gu.getGroup().getDescription());
+                    groupObj.put(T_GROUP_ID, gu.getSchoolgroup().getId());
+                    groupObj.put(T_GROUP_NAME, gu.getSchoolgroup().getName());
+                    groupObj.put(T_GROUP_DESCRIPTION, gu.getSchoolgroup().getDescription());
                     groupArray.put(groupObj);
                 }
             }
@@ -337,7 +341,7 @@ public class Query extends HttpServlet {
     private JSONObject getGroup(JSONObject reqJson) {
         try {
             long groupID = reqJson.getLong(T_GROUP_ID);
-            Group group = GroupDAO.getInstance().getGroup(groupID);
+            Schoolgroup group = GroupDAO.getInstance().getGroup(groupID);
             JSONObject resJson = new JSONObject();
             if (group != null) {
                 resJson.put(T_CODE, C_SUCCESS);
@@ -369,7 +373,7 @@ public class Query extends HttpServlet {
                     JSONObject task = new JSONObject();
                     task.put(T_TASK_ID, t.getId());
                     task.put(T_DEADLINE, t.getDeadline());
-                    task.put(T_GROUP_ID, t.getGroup().getId());
+                    task.put(T_GROUP_ID, t.getSchoolgroup().getId());
                     task.put(T_TASK, t.getTaskContent());
                     taskArray.put(task);
                 }
@@ -410,11 +414,40 @@ public class Query extends HttpServlet {
     }
 
     private JSONObject addTask(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            long groupID = reqJson.getLong(T_GROUP_ID);
+            String taskContent = reqJson.getString(T_TASK);
+            String deadlineString = reqJson.getString(T_DEADLINE);
+            Date deadline = formatDate(deadlineString);
+            Schoolgroup group = GroupDAO.getInstance().getGroup(groupID);
+            JSONObject resJson = new JSONObject();
+            if (group != null) {
+                Task task = new Task(group, taskContent, new Date(), deadline, Boolean.TRUE, null);
+                TaskDAO.getInstance().save(task);
+                JSONArray array = reqJson.getJSONArray(T_USERS);
+                for (int i = 0; i < array.length(); i++) {
+                    String userID = array.getString(i);
+                    User user = UserDAO.getInstance().getUser(userID);
+                    if (user != null) {
+                        Taskuser taskuser = new Taskuser(task, user, new Date(), true, false);
+                        TaskUserDAO.getInstance().save(taskuser);
+                    }
+                }
+                resJson.put(T_CODE, C_SUCCESS);
+                resJson.put(T_MESSAGE, M_SUCCESS);
+            } else {
+                resJson.put(T_CODE, C_GET_GROUP_FAIL);
+                resJson.put(T_MESSAGE, M_GET_GROUP_FAIL);
+            }
+            return resJson;
+        } catch (JSONException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
     private JSONObject deleteTask(JSONObject reqJson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     private JSONObject addMember(JSONObject reqJson) {
@@ -431,6 +464,17 @@ public class Query extends HttpServlet {
 
     private JSONObject createGroup(JSONObject reqJson) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Date formatDate(String deadlineString) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+            Date result = sdf.parse(deadlineString);
+            return result;
+        } catch (ParseException ex) {
+            LOGGER.error("", ex);
+        }
+        return null;
     }
 
 }
