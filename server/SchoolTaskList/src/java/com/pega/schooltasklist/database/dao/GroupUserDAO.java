@@ -123,6 +123,27 @@ public class GroupUserDAO {
 
     }
 
+    public void delete(Groupuser groupuser) {
+
+        Session session = openSession();
+
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(groupuser);
+            transaction.commit();
+
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            LOGGER.error("", e);
+        } finally {
+            closeSession(session);
+        }
+
+    }
+
     public void update(Groupuser groupuser) {
 
         Session session = openSession();

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 2, 2015 6:43:21 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Aug 2, 2015 7:51:34 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.pega.schooltasklist.database.object.User" table="user" catalog="schooltasklist" optimistic-lock="version">
         <id name="id" type="string">
@@ -31,6 +31,9 @@
         </property>
         <property name="password" type="string">
             <column name="Password" length="300" />
+        </property>
+        <property name="email" type="string">
+            <column name="Email" length="300" />
         </property>
         <set name="taskusers" table="taskuser" inverse="true" lazy="true" fetch="select">
             <key>
